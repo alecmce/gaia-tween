@@ -2,15 +2,18 @@ package gaia.lib.time
 {
 	import asunit.asserts.assertTrue;
 
+	import gaia.lib.time.pause.ExtrinsicTimeStrategy;
+
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+
 
 	public class ExtrinsicTimeTest extends TimeTest
 	{
 		
-		override protected function generateTime():Time
+		override protected function generateTime():PausableTime
 		{
-			return new ExtrinsicTime();
+			return new PausableTime(new ExtrinsicTimeStrategy());
 		}
 		
 		[Test]

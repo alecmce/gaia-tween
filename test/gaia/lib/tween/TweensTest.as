@@ -4,13 +4,13 @@ package gaia.lib.tween
 	import asunit.asserts.assertNotNull;
 	import asunit.framework.Async;
 
-	import gaia.lib.time.IntrinsicTime;
+	import gaia.lib.time.PausableTime;
 	import gaia.lib.time.Time;
+	import gaia.lib.time.pause.IntrinsictTimeStrategy;
 
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
-	
-	[Inject]
+
 	public class TweensTest
 	{
 		
@@ -26,7 +26,7 @@ package gaia.lib.tween
 		[Before]
 		public function before():void
 		{
-			time = new IntrinsicTime();
+			time = new PausableTime(new IntrinsictTimeStrategy());
 			tweens = new Tweens(time);
 			count = 0;
 		}

@@ -13,7 +13,7 @@ package gaia.lib.time
 		[Inject]
 		public var async:Async;
 		
-		protected var time:Time;
+		protected var time:PausableTime;
 		protected var value:uint;
 		
 		[Before]
@@ -28,7 +28,7 @@ package gaia.lib.time
 			time = null;
 		}
 		
-		protected function generateTime():Time
+		protected function generateTime():PausableTime
 		{
 			return null;
 		}

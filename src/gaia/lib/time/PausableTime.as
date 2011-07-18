@@ -2,13 +2,16 @@ package gaia.lib.time
 {
 	import gaia.lib.notice.Notice;
 	import gaia.lib.notice.NoticeDispatcher;
+	import gaia.lib.time.pause.PauseStrategy;
 
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.getTimer;
 
-	internal class TimeBase implements Time
+	final public class PausableTime implements Time, Pausable
 	{
+		private var _pauseStrategy:PauseStrategy;
+		
 		private var _shape:Shape;
 		private var _tick:NoticeDispatcher;
 		
@@ -18,8 +21,10 @@ package gaia.lib.time
 		private var _isPaused:Boolean;
 		private var _pause:uint;
 
-		public function TimeBase()
+		public function PausableTime(pauseStrategy:PauseStrategy)
 		{
+			_pauseStrategy = pauseStrategy;
+			
 			_shape = new Shape();
 			_shape.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
@@ -52,13 +57,8 @@ package gaia.lib.time
 				return;
 			
 			_isPaused = false;
-			_offset = onResume(_offset, getTimer() - _pause);
+			_offset = _pauseStrategy.getTimeAtResume(_offset, getTimer() - _pause);
 			_shape.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		}
-
-		protected function onResume(offset:uint, pauseTime:int):uint
-		{
-			return 0;
 		}
 		
 		private function onEnterFrame(event:Event):void

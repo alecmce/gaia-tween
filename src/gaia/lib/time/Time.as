@@ -7,10 +7,6 @@ package gaia.lib.time
 		
 		function get now():uint;
 		
-		function pause():void;
-		
-		function resume():void;
-
 		function get tick():Notice;
 		
 	}
