@@ -58,6 +58,8 @@ package gaia.lib.tween
 				tween = _list[i];
 				tween.finalize();
 			}
+			
+			_count = n;
 		}
 		
 		// called by Tween

@@ -2,6 +2,7 @@ package gaia.lib.tween
 {
 	import gaia.lib.notice.SingularNotice;
 	import gaia.lib.notice.SingularNoticeDispatcher;
+	import gaia.lib.tween.form.TweenForm;
 	
 	final public class Tween
 	{
@@ -42,15 +43,17 @@ package gaia.lib.tween
 			_index = index;
 		}
 		
-		internal function init(tween:TweenForm, start:uint, end:uint, ease:Function):void
+		internal function init(form:TweenForm, start:uint, end:uint, ease:Function):void
 		{
 			_start = start;
 			_end = end;
 			_invDuration = 1 / (end - start);
 			
-			_form = tween;
+			_form = form;
 			_ease = ease;
 			update = _ease != null ? eased_update : vanilla_update;
+			
+			form.bind(this);
 		}
 		
 		internal function finalize():void
@@ -58,6 +61,9 @@ package gaia.lib.tween
 			var form:TweenForm = _form;
 			_form = null;
 			
+			update = null;
+			
+			form.unbind(this);
 			_pool.onReleased(this, _index);
 			_completed.dispatch(this, form);
 		}

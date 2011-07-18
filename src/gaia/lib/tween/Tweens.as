@@ -1,6 +1,7 @@
 package gaia.lib.tween
 {
 	import gaia.lib.time.Time;
+	import gaia.lib.tween.form.TweenForm;
 	
 	final public class Tweens
 	{
