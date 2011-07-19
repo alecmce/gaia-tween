@@ -72,7 +72,7 @@ package gaia.lib.tween
 			mock = new MockTweenForm("a");
 			tweens.add(mock, 100).completed.addOnce(onSignalCompleted);
 		}
-		private function onSignalCompleted(tween:Tween, form:TweenForm):void
+		private function onSignalCompleted(tween:Tween):void
 		{
 			++count;
 		}
