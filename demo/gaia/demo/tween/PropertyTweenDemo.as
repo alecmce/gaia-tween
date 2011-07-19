@@ -15,6 +15,8 @@ package gaia.demo.tween
 	public class PropertyTweenDemo extends Sprite
 	{
 		private static const COUNT:int = 1000;
+		private static const X:String = "x";
+		private static const Y:String = "y";
 		
 		private var time:Time;
 		private var random:Random;
@@ -28,7 +30,7 @@ package gaia.demo.tween
 		{
 			time = new SimpleTime();
 			random = new Random();
-			tweens = new Tweens(time, 8);
+			tweens = new Tweens(time, COUNT);
 			
 			map = new PropertyTweenMap();
 			
@@ -60,8 +62,8 @@ package gaia.demo.tween
 			while (i--)
 			{
 				var form:PropertyTweenForm = forms[i];
-				form.set("x", random.nextInt(700) + 50);
-				form.set("y", random.nextInt(500) + 50);
+				form.set(X, random.nextInt(700) + 50);
+				form.set(Y, random.nextInt(500) + 50);
 
 				tween = tweens.add(form, 1000);
 			}

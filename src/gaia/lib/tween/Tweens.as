@@ -15,16 +15,16 @@ package gaia.lib.tween
 		private var i:uint, n:uint;
 		private var tween:Tween;
 		
-		public function Tweens(time:Time, initialDimension:uint = 5)
+		public function Tweens(time:Time, initialCount:uint)
 		{
 			_time = time;
 			
-			_dimension = initialDimension;
+			_dimension = Math.ceil(Math.log(initialCount) * Math.LOG2E);
 			_length = 1 << _dimension;
 			_list = new Vector.<Tween>(_length, true);
 			_count = 0;
-
-			var i:uint = _length;
+			
+			var i:uint = initialCount;
 			while (i--)
 				_list[i] = new Tween(this);
 		}

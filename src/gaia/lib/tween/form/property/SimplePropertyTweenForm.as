@@ -85,8 +85,8 @@ package gaia.lib.tween.form.property
 			_keys = new Vector.<String>();
 			_starts = new Vector.<Number>();
 			_ranges = new Vector.<Number>();
-			
 			_count = 0;
+			
 			for (var key:String in properties)
 			{
 				var start:Number = _subject[key];

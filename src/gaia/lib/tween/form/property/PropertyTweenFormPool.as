@@ -1,7 +1,5 @@
 package gaia.lib.tween.form.property
 {
-	import gaia.lib.tween.form.TweenForm;
-
 	import flash.utils.Dictionary;
 	
 	final public class PropertyTweenFormPool
@@ -14,19 +12,23 @@ package gaia.lib.tween.form.property
 		private var _count:uint;
 		private var _propertyMaps:Dictionary;
 		
-		public function PropertyTweenFormPool(map:PropertyTweenMap, initialDimension:uint)
+		public function PropertyTweenFormPool(map:PropertyTweenMap, initialCount:uint)
 		{
 			_map = map;
 			
-			_dimension = initialDimension;
+			_dimension = Math.ceil(Math.log(initialCount) * Math.LOG2E);
 			_length = 1 << _dimension;
 			_list = new Vector.<PooledPropertyTweenForm>(_length, true);
 			_count = 0;
 			
 			_propertyMaps = new Dictionary(true);
+			
+			var i:int = initialCount;
+			while (i--)
+				_list[i] = new PooledPropertyTweenForm(this, _map);
 		}
 		
-		public function require(subject:*, properties:Object):TweenForm
+		public function require(subject:*, properties:Object):PropertyTweenForm
 		{
 			if (_count == _length)
 			{

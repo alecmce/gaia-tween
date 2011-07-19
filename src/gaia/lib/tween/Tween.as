@@ -24,7 +24,6 @@ package gaia.lib.tween
 		public function Tween(pool:Tweens)
 		{
 			_pool = pool;
-			_completed = new SingularNoticeDispatcher();
 		}
 
 		public function cancel():void
@@ -35,7 +34,7 @@ package gaia.lib.tween
 		
 		public function get completed():SingularNotice
 		{
-			return _completed;
+			return _completed ||= new SingularNoticeDispatcher();
 		}
 
 		internal function init(form:TweenForm, start:uint, end:uint, ease:Function, index:uint):void
@@ -60,7 +59,8 @@ package gaia.lib.tween
 		
 		internal function dispatch():void
 		{
-			_completed.dispatch(this);
+			if (_completed)
+				_completed.dispatch(this);
 		}
 		
 		private function vanilla_update(time:uint):Boolean
