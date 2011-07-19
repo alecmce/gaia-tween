@@ -4,7 +4,6 @@ package gaia.demo.tween
 	import gaia.lib.time.Time;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
-	import gaia.lib.tween.form.TweenForm;
 	import gaia.lib.tween.form.property.PropertyTweenForm;
 	import gaia.lib.tween.form.property.PropertyTweenMap;
 	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
@@ -55,14 +54,14 @@ package gaia.demo.tween
 			tween.completed.addOnce(onTweenCompleted);
 		}
 
-		private function onTweenCompleted(tween:Tween, form:TweenForm):void
+		private function onTweenCompleted(tween:Tween):void
 		{
 			var i:int = COUNT;
 			while (i--)
 			{
-				var pform:PropertyTweenForm = forms[i];
-				pform.set("x", random.nextInt(700) + 50);
-				pform.set("y", random.nextInt(500) + 50);
+				var form:PropertyTweenForm = forms[i];
+				form.set("x", random.nextInt(700) + 50);
+				form.set("y", random.nextInt(500) + 50);
 
 				tween = tweens.add(form, 1000);
 			}

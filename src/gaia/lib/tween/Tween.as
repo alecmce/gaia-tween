@@ -7,7 +7,7 @@ package gaia.lib.tween
 	final public class Tween
 	{
 		// TweenPool properties
-		private var _pool:TweenPool;
+		private var _pool:Tweens;
 		private var _index:uint;
 		
 		private var _completed:SingularNoticeDispatcher;
@@ -21,7 +21,7 @@ package gaia.lib.tween
 		
 		internal var update:Function;
 
-		public function Tween(pool:TweenPool)
+		public function Tween(pool:Tweens)
 		{
 			_pool = pool;
 			_completed = new SingularNoticeDispatcher();
@@ -29,7 +29,8 @@ package gaia.lib.tween
 
 		public function cancel():void
 		{
-			_pool.onReleased(this, _index);
+			_form.unbind(this);
+			_pool.onCancelled(this, _index);
 		}
 		
 		public function get completed():SingularNotice
@@ -37,13 +38,7 @@ package gaia.lib.tween
 			return _completed;
 		}
 
-		// called by TweenPool
-		internal function onRequired(index:uint):void
-		{
-			_index = index;
-		}
-		
-		internal function init(form:TweenForm, start:uint, end:uint, ease:Function):void
+		internal function init(form:TweenForm, start:uint, end:uint, ease:Function, index:uint):void
 		{
 			_start = start;
 			_end = end;
@@ -53,19 +48,19 @@ package gaia.lib.tween
 			_ease = ease;
 			update = _ease != null ? eased_update : vanilla_update;
 			
+			_index = index;
 			form.bind(this);
 		}
 		
-		internal function finalize():void
+		internal function complete():void
 		{
-			var form:TweenForm = _form;
+			_form.unbind(this);
 			_form = null;
-			
-			update = null;
-			
-			form.unbind(this);
-			_pool.onReleased(this, _index);
-			_completed.dispatch(this, form);
+		}
+		
+		internal function dispatch():void
+		{
+			_completed.dispatch(this);
 		}
 		
 		private function vanilla_update(time:uint):Boolean
