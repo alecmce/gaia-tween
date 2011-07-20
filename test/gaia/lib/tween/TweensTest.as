@@ -28,7 +28,7 @@ package gaia.lib.tween
 		public function before():void
 		{
 			time = new PausableTime(new IntrinsictTimeStrategy());
-			tweens = new Tweens(time);
+			tweens = new Tweens(time, 20);
 			count = 0;
 		}
 		
