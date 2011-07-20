@@ -4,6 +4,7 @@ package gaia.demo.tween
 	import gaia.lib.time.Time;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
+	import gaia.lib.tween.easing.Quad;
 	import gaia.lib.tween.form.property.PropertyTweenForm;
 	import gaia.lib.tween.form.property.PropertyTweenMap;
 	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
@@ -74,7 +75,7 @@ package gaia.demo.tween
 				form.set(X, random.nextInt(700) + 50);
 				form.set(Y, random.nextInt(500) + 50);
 
-				list[i] = tween = tweens.add(form, 1000);
+				list[i] = tween = tweens.add(form, 1000, 0, Quad.easeInOut);
 			}
 			
 			tween.completed.addOnce(restart);

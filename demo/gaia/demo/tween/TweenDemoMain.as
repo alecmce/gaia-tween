@@ -2,7 +2,10 @@ package gaia.demo.tween
 {
 	import gaia.lib.util.Random;
 
+	import com.bit101.components.PushButton;
+
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 
 	[SWF(backgroundColor="#FFFFFF", frameRate="31", width="800", height="600")]
 	public class TweenDemoMain extends Sprite
@@ -12,7 +15,8 @@ package gaia.demo.tween
 		private var random:Random;
 		private var sprites:Vector.<Sprite>;
 		
-		private var _demo:TweenDemo;
+		private var _gaia:TweenDemo;
+		private var _tweenlite:TweenDemo;
 		
 		public function TweenDemoMain()
 		{
@@ -27,16 +31,28 @@ package gaia.demo.tween
 				addChild(sprite);
 			}
 			
-			init();
-		}
-
-		private function init():void
-		{
-			_demo = new GaiaTweenDemo();
-			_demo.init(sprites);
-			_demo.start();
+			_gaia = new GaiaTweenDemo();
+			_gaia.init(sprites);
+			
+			_tweenlite = new TweenLiteDemo();
+			_tweenlite.init(sprites);
+			
+			new PushButton(this, 5, 5, "gaia-tween", onGaiaTween);
+			new PushButton(this, 5, 30, "TweenLite", onTweenLite);
 		}
 		
+		private function onGaiaTween(event:MouseEvent):void
+		{
+			_tweenlite.stop();
+			_gaia.start();
+		}
+		
+		private function onTweenLite(event:MouseEvent):void
+		{
+			_gaia.stop();
+			_tweenlite.start();
+		}
+
 		private function generateSprite():Sprite
 		{
 			var s:Sprite = new Sprite();
