@@ -3,14 +3,13 @@ package gaia.lib.tween
 	import asunit.asserts.assertEquals;
 	import asunit.asserts.assertNotNull;
 	import asunit.framework.Async;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
+
 	import gaia.lib.time.PausableTime;
 	import gaia.lib.time.Time;
 	import gaia.lib.time.pause.IntrinsictTimeStrategy;
-	import gaia.lib.tween.form.TweenForm;
 
-
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 
 	public class TweensTest
 	{
