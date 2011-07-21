@@ -29,11 +29,15 @@ package gaia.demo.tween
 		
 		private var tween:Tween;
 		
+		private var isStarted:Boolean;
+		
 		public function GaiaTweenDemo()
 		{
 			time = new SimpleTime();
 			random = new Random();
 			map = new PropertyTweenMap();
+			
+			isStarted = false;
 		}
 		
 		public function init(sprites:Vector.<Sprite>):void
@@ -54,11 +58,19 @@ package gaia.demo.tween
 
 		public function start():void
 		{
+			if (isStarted)
+				return;
+			
+			isStarted = true;
 			restart();
 		}
 
 		public function stop():void
 		{
+			if (!isStarted)
+				return;	
+			
+			isStarted = false;
 			tween.completed.remove(restart);
 			
 			var i:int = count;
@@ -74,7 +86,6 @@ package gaia.demo.tween
 				var form:PropertyTweenForm = forms[i];
 				form.set(X, random.nextInt(700) + 50);
 				form.set(Y, random.nextInt(500) + 50);
-
 				list[i] = tween = tweens.add(form, 1000, 0, Quad.easeInOut);
 			}
 			

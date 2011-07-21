@@ -9,6 +9,7 @@ package gaia.demo.tween
 
 	public class TweenLiteDemo implements TweenDemo
 	{
+		
 		private static const X:String = "x";
 		private static const Y:String = "y";
 		private static const ON_COMPLETE:String = "onComplete";
@@ -19,6 +20,8 @@ package gaia.demo.tween
 		private var random:Random;
 		
 		private var prop:Object;
+		
+		private var isStarted:Boolean;
 		
 		public function init(sprites:Vector.<Sprite>):void
 		{
@@ -34,6 +37,10 @@ package gaia.demo.tween
 
 		public function start():void
 		{
+			if (isStarted)
+				return;
+			
+			isStarted = true;
 			restart();
 		}
 
@@ -54,6 +61,11 @@ package gaia.demo.tween
 
 		public function stop():void
 		{
+			if (!isStarted)
+				return;
+			
+			isStarted = false;
+			
 			var i:int = count;
 			while (i--)
 				TweenLite.killTweensOf(sprites[i]);

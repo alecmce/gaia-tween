@@ -26,7 +26,7 @@ package gaia.lib.tween
 			
 			var i:uint = initialCount;
 			while (i--)
-				_list[i] = new Tween(this);
+				_list[i] = new Tween(this, i);
 		}
 		
 		public function add(form:TweenForm, duration:uint, delay:uint = 0, ease:Function = null):Tween
@@ -42,8 +42,8 @@ package gaia.lib.tween
 				_list.fixed = true;
 			}
 
-			var tween:Tween = _list[_count] ||= new Tween(this);
-			tween.init(form, start, end, ease, _count);
+			var tween:Tween = _list[_count] ||= new Tween(this, _count);
+			tween.init(form, start, end, ease);
 			
 			if (++_count == 1)
 				_time.tick.add(iterate);
@@ -59,8 +59,12 @@ package gaia.lib.tween
 				tween = _list[i];
 				if (tween.update(time))
 				{
-					_list[i] = _list[--n];
+					var other:Tween = _list[--n];
+					_list[i] = other;
+					other.index = i;
+					
 					_list[n] = tween;
+					tween.index = n;
 					tween.complete();
 				}
 			}
@@ -78,10 +82,16 @@ package gaia.lib.tween
 				_time.tick.remove(iterate);
 		}
 		
-		internal function onCancelled(tween:Tween, index:uint):void
+		internal function onCancelled(tween:Tween):void
 		{
-			_list[index] = _list[--_count];
+			var index:uint = tween.index;
+			
+			var other:Tween = _list[--_count];
+			_list[index] = other;
+			other.index = index;
+			
 			_list[_count] = tween;
+			tween.index = _count;
 		}
 		
 	}
