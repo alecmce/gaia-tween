@@ -1,6 +1,7 @@
 package gaia.demo.tween
 {
 	import gaia.lib.time.Timeline;
+	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
 	import gaia.lib.tween.form.property.PropertyTweenForm;
@@ -21,7 +22,8 @@ package gaia.demo.tween
 	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")]
 	public class TimelineDemo extends Sprite
 	{
-		private static const COUNT:uint = 2000;
+		private static const COUNT:uint = 3000;
+		private static const TIME:uint = 1000;
 		
 		private var random:Random;
 		private var map:PropertyTweenMap;
@@ -47,16 +49,28 @@ package gaia.demo.tween
 			
 			generateTweens();
 			
-			slider = new Slider("horizontal", this, 400, 550, onSlider);
+			slider = new Slider("horizontal", this, 405, 565, onSlider);
 			slider.minimum = 0;
-			slider.maximum = 3000;
+			slider.maximum = TIME;
 			
-			play = new PushButton(this, 200, 550, "play", onPlay);
+			play = new PushButton(this, 300, 560, "play", onPlay);
 		}
 
 		private function onPlay(event:Event):void
 		{
-			time.play();
+			if (time.speed)
+			{
+				play.label = "play";
+				time.stop();
+			}
+			else
+			{
+				play.label = "stop";
+				time.play();
+				
+				if (time.now >= TIME)
+					time.now = 0;
+			}
 		}
 
 		private function onSlider(event:Event):void
@@ -68,10 +82,11 @@ package gaia.demo.tween
 		private function regulateTime(now:uint):void
 		{
 			slider.value = now;
-			if (now >= 3000)
+			if (now >= TIME)
 			{
-				time.now = 3000;
+				time.now = TIME;
 				time.stop();
+				play.label = "restart";
 			}
 		}
 
@@ -79,7 +94,10 @@ package gaia.demo.tween
 		{
 			var i:int = COUNT;
 			while (i--)
-				tweens.add(forms[i], 3000, 0, Quad.easeOut);
+			{
+				var tween:Tween = tweens.add(forms[i], TIME, 0, Quad.easeOut);
+				tween.autoComplete = false;
+			}
 		}
 		
 		private function generateForms(template:BitmapData):Vector.<PropertyTweenForm>

@@ -18,17 +18,21 @@ package gaia.lib.tween
 		
 		internal var index:uint;
 		internal var update:Function;
+		
+		public var autoComplete:Boolean;
 
 		public function Tween(pool:Tweens, index:uint)
 		{
 			_pool = pool;
 			this.index = index;
+			this.autoComplete = true;
 		}
 
 		public function cancel():void
 		{
 			_form.unbind(this);
 			_form = null;
+			autoComplete = true;
 			
 			_pool.onCancelled(this);
 		}
@@ -55,6 +59,7 @@ package gaia.lib.tween
 		{
 			_form.unbind(this);
 			_form = null;
+			autoComplete = true;
 		}
 		
 		internal function dispatch():void
@@ -68,7 +73,7 @@ package gaia.lib.tween
 			if (time >= _end)
 			{
 				_form.update(1);
-				return true;
+				return autoComplete;
 			}
 			
 			if (time < _start)
@@ -84,7 +89,7 @@ package gaia.lib.tween
 			if (time >= _end)
 			{
 				_form.update(1);
-				return true;
+				return autoComplete;
 			}
 			
 			if (time < _start)
