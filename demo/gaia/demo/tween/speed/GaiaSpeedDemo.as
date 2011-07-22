@@ -1,4 +1,6 @@
-package gaia.demo.tween.speed {
+package gaia.demo.tween.speed
+{
+	
 	import gaia.lib.notice.SingularNotice;
 	import gaia.lib.notice.SingularNoticeDispatcher;
 	import gaia.lib.time.SimpleTime;
@@ -13,48 +15,47 @@ package gaia.demo.tween.speed {
 
 	import flash.display.Sprite;
 
-	
 	public class GaiaSpeedDemo implements LibrarySpeedDemo
 	{
-		
+
 		private static const X:String = "x";
 		private static const Y:String = "y";
-		
+
 		private var _completed:SingularNoticeDispatcher;
-		
+
 		private var time:Time;
 		private var random:Random;
 		private var tweens:Tweens;
 		private var list:Vector.<Tween>;
-		
+
 		private var count:uint;
 		private var forms:Vector.<PropertyTweenForm>;
 		private var map:PropertyTweenMap;
-		
+
 		private var tween:Tween;
-		
+
 		private var isStarted:Boolean;
-		
+
 		private var _iterations:uint;
-		
+
 		public function GaiaSpeedDemo(random:Random)
 		{
 			_completed = new SingularNoticeDispatcher();
-			
+
 			time = new SimpleTime();
 			this.random = random;
 			map = new PropertyTweenMap();
-			
+
 			isStarted = false;
 		}
-		
+
 		public function init(sprites:Vector.<Sprite>):void
 		{
 			count = sprites.length;
 			tweens = new Tweens(time, count);
 			list = new Vector.<Tween>(count, true);
 			forms = new Vector.<PropertyTweenForm>(count, true);
-			
+
 			var i:int = count;
 			while (i--)
 			{
@@ -68,7 +69,7 @@ package gaia.demo.tween.speed {
 		{
 			if (isStarted)
 				return;
-			
+
 			isStarted = true;
 			_iterations = iterations;
 			restart();
@@ -77,11 +78,11 @@ package gaia.demo.tween.speed {
 		public function stop():void
 		{
 			if (!isStarted)
-				return;	
-			
+				return;
+
 			isStarted = false;
 			tween.completed.remove(restart);
-			
+
 			var i:int = count;
 			while (i--)
 				list[i].cancel();
@@ -97,7 +98,7 @@ package gaia.demo.tween.speed {
 				form.set(Y, random.nextInt(500) + 50);
 				list[i] = tween = tweens.add(form, 1000, 0, Quad.easeInOut);
 			}
-			
+
 			if (_iterations--)
 				tween.completed.addOnce(restart);
 			else
@@ -114,6 +115,6 @@ package gaia.demo.tween.speed {
 		{
 			return _completed;
 		}
-		
+
 	}
 }

@@ -7,7 +7,7 @@ package gaia.lib.time
 	import flash.events.Event;
 	import flash.utils.getTimer;
 
-	public class SimpleTime implements Time
+	final public class SimpleTime implements Time
 	{
 		private var _shape:Shape;
 		private var _tick:NoticeDispatcher;

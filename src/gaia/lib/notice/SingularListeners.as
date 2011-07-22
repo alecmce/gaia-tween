@@ -29,6 +29,9 @@ package gaia.lib.notice
 		{
 			if (_lock)
 			{
+				if (_additions.indexOf(listener) != -1)
+					return false;
+				
 				_additions.push(listener);
 				return true;
 			}

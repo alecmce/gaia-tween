@@ -10,7 +10,7 @@ package gaia.lib.notice
 		private var _count:uint;
 		
 		private var _lock:Boolean;
-		private var _removals:Vector.<uint>;
+		private var _removals:Vector.<Function>;
 
 		private var i:int, j:int;
 
@@ -21,7 +21,7 @@ package gaia.lib.notice
 			_listeners = new Vector.<Function>(_size, true);
 			_count = 0;
 			
-			_removals = new Vector.<uint>();
+			_removals = new Vector.<Function>();
 		}
 
 		public function add(listener:Function):Boolean
@@ -56,7 +56,10 @@ package gaia.lib.notice
 			
 			if (_lock)
 			{
-				_removals.push(i);
+				if (_removals.indexOf(listener) != -1)
+					return false;
+				
+				_removals.push(listener);
 				return true;
 			}
 			
@@ -67,6 +70,9 @@ package gaia.lib.notice
 		
 		public function dispatch(params:Array):void
 		{
+			if (_lock)
+				return;
+			
 			_lock = true;
 			
 			i = _count;
@@ -81,7 +87,7 @@ package gaia.lib.notice
 			
 			while (i--)
 			{
-				j = _removals[i];
+				j = _listeners.indexOf(_removals[i]);
 				_listeners[j] = _listeners[--_count];
 				_listeners[_count] = null;
 			}
