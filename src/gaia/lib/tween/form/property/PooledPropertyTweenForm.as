@@ -1,5 +1,4 @@
-package gaia.lib.tween.form.property
-{
+package gaia.lib.tween.form.property {
 	import gaia.lib.tween.Tween;
 	
 	final internal class PooledPropertyTweenForm implements PropertyTweenForm
@@ -15,6 +14,7 @@ package gaia.lib.tween.form.property
 		private var _keys:Vector.<String>;
 		private var _starts:Vector.<Number>;
 		private var _ranges:Vector.<Number>;
+		private var _ends:Vector.<Number>;
 		
 		private var i:uint;
 
@@ -31,10 +31,44 @@ package gaia.lib.tween.form.property
 			_index = index;
 		}
 		
+		private function parseProperties(properties:Object):void
+		{
+			_keys = new Vector.<String>();
+			_starts = new Vector.<Number>();
+			_ranges = new Vector.<Number>();
+			_ends = new Vector.<Number>();
+			_count = 0;
+			
+			for (var key:String in properties)
+			{
+				var start:Number = _subject[key];
+				if (start != start)
+					continue;
+				
+				_keys.push(key);
+				_starts.push(0);
+				_ranges.push(0);
+				_ends.push(properties[key]);
+				++_count;
+			}
+			
+			_active = _count;
+			_keys.fixed = true;
+			_starts.fixed = true;
+			_ranges.fixed = true;
+		}
+		
 		public function bind(tween:Tween):void
 		{
 			_map.bind(_subject, _keys, this);
-			_active = _count;
+			
+			i = _active = _count;
+			while (i--)
+			{
+				var start:Number = _subject[_keys[i]];
+				_starts[i] = start;
+				_ranges[i] = _ends[i] - start;
+			}
 		}
 		
 		public function update(proportion:Number):void
@@ -49,39 +83,6 @@ package gaia.lib.tween.form.property
 			_map.unbind(_subject, _keys);
 		}
 		
-		private function parseProperties(properties:Object):void
-		{
-			_keys.fixed = false;
-			_starts.fixed = false;
-			_ranges.fixed = false;
-			
-			_keys.length = 0;
-			_starts.length = 0;
-			_ranges.length = 0;
-			
-			_count = 0;
-			for (var key:String in properties)
-			{
-				var start:Number = _subject[key];
-				if (start != start)
-					continue;
-				
-				var end:Number = properties[key];
-				if (end != end)
-					continue;
-				
-				_keys.push(key);
-				_starts.push(start);
-				_ranges.push(end - start);
-				++_count;
-			}
-			
-			_active = _count;
-			_keys.fixed = true;
-			_starts.fixed = true;
-			_ranges.fixed = true;
-		}
-		
 		public function set(key:String, value:Number):void
 		{
 			var start:Number = _subject[key];
@@ -90,18 +91,19 @@ package gaia.lib.tween.form.property
 			
 			i = _keys.indexOf(key);
 			if (i != -1)
-				changeValue(i, start, value - start);
+				changeValue(i, start, value);
 			else
-				addValue(key, start, value - start);
+				addValue(key, start, value);
 		}
 		
-		private function changeValue(index:uint, start:Number, range:Number):void
+		private function changeValue(index:uint, start:Number, end:Number):void
 		{
-			_starts[i] = start;
-			_ranges[i] = range;
+			_starts[index] = start;
+			_ends[index] = end;
+			_ranges[index] = end - start;
 		}
 		
-		private function addValue(key:String, start:Number, range:Number):void
+		private function addValue(key:String, start:Number, end:Number):void
 		{
 			_keys.fixed = false;
 			_starts.fixed = false;
@@ -109,7 +111,8 @@ package gaia.lib.tween.form.property
 			
 			_keys.unshift(key);
 			_starts.unshift(start);
-			_ranges.unshift(range);
+			_ends.unshift(end);
+			_ranges.unshift(end - start);
 			
 			_keys.fixed = true;
 			_starts.fixed = true;

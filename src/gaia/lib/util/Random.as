@@ -5,9 +5,9 @@ package gaia.lib.util
 		private var _seed:uint;
 		private var _current:uint;
 		
-		public function Random(seed:uint = 1)
+		public function Random(seed:uint = 0)
 		{
-			_seed = seed == 0 ? 1 : seed;
+			_seed = seed == 0 ? (Math.random() * 2147483647) | 0 : seed;
 			_current = _seed;
 		}
 

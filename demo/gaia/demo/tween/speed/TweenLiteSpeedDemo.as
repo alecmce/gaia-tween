@@ -1,5 +1,6 @@
-package gaia.demo.tween
-{
+package gaia.demo.tween.speed {
+	import gaia.lib.notice.SingularNotice;
+	import gaia.lib.notice.SingularNoticeDispatcher;
 	import gaia.lib.util.Random;
 
 	import com.greensock.TweenLite;
@@ -7,12 +8,13 @@ package gaia.demo.tween
 
 	import flash.display.Sprite;
 
-	public class TweenLiteDemo implements TweenDemo
+	public class TweenLiteSpeedDemo implements LibrarySpeedDemo
 	{
-		
 		private static const X:String = "x";
 		private static const Y:String = "y";
 		private static const ON_COMPLETE:String = "onComplete";
+		
+		private var _completed:SingularNoticeDispatcher;
 		
 		private var sprites:Vector.<Sprite>;
 		private var count:uint;
@@ -20,27 +22,35 @@ package gaia.demo.tween
 		private var random:Random;
 		
 		private var prop:Object;
-		
 		private var isStarted:Boolean;
+		private var _iterations : uint;
+
+		public function TweenLiteSpeedDemo(random:Random)
+		{
+			this.random = random;
+		}
+
 		
 		public function init(sprites:Vector.<Sprite>):void
 		{
+			_completed = new SingularNoticeDispatcher();
+			
 			this.sprites = sprites;
 			count = sprites.length;
 			props = new Vector.<Object>(count, true);
-			random = new Random();
 			
 			var i:int = count;
 			while (i--)
 				props[i] = {x:0, y:0, ease:Quad.easeInOut};
 		}
 
-		public function start():void
+		public function start(iterations:uint):void
 		{
 			if (isStarted)
 				return;
 			
 			isStarted = true;
+			_iterations = iterations;
 			restart();
 		}
 
@@ -53,10 +63,21 @@ package gaia.demo.tween
 				prop[X] = random.nextInt(700) + 50;
 				prop[Y] = random.nextInt(500) + 50;
 				if (i == 0)
-					prop[ON_COMPLETE] = restart;
+				{
+					if (_iterations--)
+						prop[ON_COMPLETE] = restart;
+					else
+						prop[ON_COMPLETE] = complete;
+				}
 				
 				TweenLite.to(sprites[i], 1, prop);
 			}
+		}
+
+		private function complete():void
+		{
+			isStarted = false;
+			_completed.dispatch();
 		}
 
 		public function stop():void
@@ -69,6 +90,11 @@ package gaia.demo.tween
 			var i:int = count;
 			while (i--)
 				TweenLite.killTweensOf(sprites[i]);
+		}
+
+		public function get completed():SingularNotice
+		{
+			return _completed;
 		}
 		
 	}

@@ -1,5 +1,6 @@
-package gaia.demo.tween
-{
+package gaia.demo.tween.speed {
+	import gaia.lib.notice.SingularNotice;
+	import gaia.lib.notice.SingularNoticeDispatcher;
 	import gaia.lib.time.SimpleTime;
 	import gaia.lib.time.Time;
 	import gaia.lib.tween.Tween;
@@ -11,12 +12,15 @@ package gaia.demo.tween
 	import gaia.lib.util.Random;
 
 	import flash.display.Sprite;
+
 	
-	public class GaiaTweenDemo implements TweenDemo
+	public class GaiaSpeedDemo implements LibrarySpeedDemo
 	{
 		
 		private static const X:String = "x";
 		private static const Y:String = "y";
+		
+		private var _completed:SingularNoticeDispatcher;
 		
 		private var time:Time;
 		private var random:Random;
@@ -31,10 +35,14 @@ package gaia.demo.tween
 		
 		private var isStarted:Boolean;
 		
-		public function GaiaTweenDemo()
+		private var _iterations:uint;
+		
+		public function GaiaSpeedDemo(random:Random)
 		{
+			_completed = new SingularNoticeDispatcher();
+			
 			time = new SimpleTime();
-			random = new Random();
+			this.random = random;
 			map = new PropertyTweenMap();
 			
 			isStarted = false;
@@ -56,12 +64,13 @@ package gaia.demo.tween
 			}
 		}
 
-		public function start():void
+		public function start(iterations:uint):void
 		{
 			if (isStarted)
 				return;
 			
 			isStarted = true;
+			_iterations = iterations;
 			restart();
 		}
 
@@ -89,7 +98,21 @@ package gaia.demo.tween
 				list[i] = tween = tweens.add(form, 1000, 0, Quad.easeInOut);
 			}
 			
-			tween.completed.addOnce(restart);
+			if (_iterations--)
+				tween.completed.addOnce(restart);
+			else
+				tween.completed.addOnce(complete);
+		}
+
+		private function complete(t:Tween):void
+		{
+			isStarted = false;
+			_completed.dispatch();
+		}
+
+		public function get completed():SingularNotice
+		{
+			return _completed;
 		}
 		
 	}
