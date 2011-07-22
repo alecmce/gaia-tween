@@ -1,8 +1,5 @@
 package gaia.demo.tween.speed
 {
-	
-	import gaia.lib.notice.SingularNotice;
-	import gaia.lib.notice.SingularNoticeDispatcher;
 	import gaia.lib.time.SimpleTime;
 	import gaia.lib.time.Time;
 	import gaia.lib.tween.Tween;
@@ -13,7 +10,11 @@ package gaia.demo.tween.speed
 	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
 	import gaia.lib.util.Random;
 
+	import org.osflash.signals.ISignal;
+	import org.osflash.signals.Signal;
+
 	import flash.display.Sprite;
+	
 
 	public class GaiaSpeedDemo implements LibrarySpeedDemo
 	{
@@ -21,7 +22,7 @@ package gaia.demo.tween.speed
 		private static const X:String = "x";
 		private static const Y:String = "y";
 
-		private var _completed:SingularNoticeDispatcher;
+		private var _completed:Signal;
 
 		private var time:Time;
 		private var random:Random;
@@ -40,7 +41,7 @@ package gaia.demo.tween.speed
 
 		public function GaiaSpeedDemo(random:Random)
 		{
-			_completed = new SingularNoticeDispatcher();
+			_completed = new Signal();
 
 			time = new SimpleTime();
 			this.random = random;
@@ -111,7 +112,7 @@ package gaia.demo.tween.speed
 			_completed.dispatch();
 		}
 
-		public function get completed():SingularNotice
+		public function get completed():ISignal
 		{
 			return _completed;
 		}

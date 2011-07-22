@@ -1,7 +1,7 @@
 package gaia.lib.time
 {
-	import gaia.lib.notice.Notice;
-	import gaia.lib.notice.NoticeDispatcher;
+	import org.osflash.signals.ISignal;
+	import org.osflash.signals.Signal;
 
 	import flash.display.Shape;
 	import flash.events.Event;
@@ -10,7 +10,7 @@ package gaia.lib.time
 	final public class Timeline implements Time
 	{
 		private var _shape:Shape;
-		private var _tick:NoticeDispatcher;
+		private var _tick:Signal;
 		
 		private var _time:uint;
 		private var _dtime:uint;
@@ -22,7 +22,7 @@ package gaia.lib.time
 		{
 			_shape = new Shape();
 			
-			_tick = new NoticeDispatcher();
+			_tick = new Signal(uint);
 			
 			_speed = 0;
 		}
@@ -73,7 +73,7 @@ package gaia.lib.time
 				_shape.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 
-		public function get tick():Notice
+		public function get tick():ISignal
 		{
 			return _tick;
 		}

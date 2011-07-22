@@ -1,10 +1,12 @@
-package gaia.demo.tween.speed {
-	import gaia.lib.notice.SingularNotice;
-	import gaia.lib.notice.SingularNoticeDispatcher;
+package gaia.demo.tween.speed
+{
 	import gaia.lib.util.Random;
 
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Quad;
+
+	import org.osflash.signals.ISignal;
+	import org.osflash.signals.Signal;
 
 	import flash.display.Sprite;
 
@@ -14,7 +16,7 @@ package gaia.demo.tween.speed {
 		private static const Y:String = "y";
 		private static const ON_COMPLETE:String = "onComplete";
 		
-		private var _completed:SingularNoticeDispatcher;
+		private var _completed:Signal;
 		
 		private var sprites:Vector.<Sprite>;
 		private var count:uint;
@@ -33,7 +35,7 @@ package gaia.demo.tween.speed {
 		
 		public function init(sprites:Vector.<Sprite>):void
 		{
-			_completed = new SingularNoticeDispatcher();
+			_completed = new Signal();
 			
 			this.sprites = sprites;
 			count = sprites.length;
@@ -92,7 +94,7 @@ package gaia.demo.tween.speed {
 				TweenLite.killTweensOf(sprites[i]);
 		}
 
-		public function get completed():SingularNotice
+		public function get completed():ISignal
 		{
 			return _completed;
 		}

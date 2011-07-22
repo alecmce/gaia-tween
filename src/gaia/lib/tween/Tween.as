@@ -1,13 +1,14 @@
 package gaia.lib.tween
 {
-	import gaia.lib.notice.SingularNotice;
-	import gaia.lib.notice.SingularNoticeDispatcher;
 	import gaia.lib.tween.form.TweenForm;
+
+	import org.osflash.signals.ISignal;
+	import org.osflash.signals.Signal;
 	
 	final public class Tween
 	{
 		private var _pool:Tweens;
-		private var _completed:SingularNoticeDispatcher;
+		private var _completed:Signal;
 		
 		private var _start:uint;
 		private var _end:uint;
@@ -37,9 +38,9 @@ package gaia.lib.tween
 			_pool.onCancelled(this);
 		}
 		
-		public function get completed():SingularNotice
+		public function get completed():ISignal
 		{
-			return _completed ||= new SingularNoticeDispatcher();
+			return _completed ||= new Signal(Tween);
 		}
 
 		internal function init(form:TweenForm, start:uint, end:uint, ease:Function):void

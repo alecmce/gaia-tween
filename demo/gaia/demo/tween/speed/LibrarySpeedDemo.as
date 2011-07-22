@@ -1,6 +1,6 @@
 package gaia.demo.tween.speed
 {
-	import gaia.lib.notice.SingularNotice;
+	import org.osflash.signals.ISignal;
 
 	import flash.display.Sprite;
 	
@@ -13,7 +13,7 @@ package gaia.demo.tween.speed
 		
 		function stop():void;
 		
-		function get completed():SingularNotice;
+		function get completed():ISignal;
 		
 	}
 }

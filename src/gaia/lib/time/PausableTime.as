@@ -1,8 +1,9 @@
 package gaia.lib.time
 {
-	import gaia.lib.notice.Notice;
-	import gaia.lib.notice.NoticeDispatcher;
 	import gaia.lib.time.pause.PauseStrategy;
+
+	import org.osflash.signals.ISignal;
+	import org.osflash.signals.Signal;
 
 	import flash.display.Shape;
 	import flash.events.Event;
@@ -13,7 +14,7 @@ package gaia.lib.time
 		private var _pauseStrategy:PauseStrategy;
 		
 		private var _shape:Shape;
-		private var _tick:NoticeDispatcher;
+		private var _tick:Signal;
 		
 		private var _now:uint;
 		private var _offset:uint;
@@ -28,7 +29,7 @@ package gaia.lib.time
 			_shape = new Shape();
 			_shape.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
-			_tick = new NoticeDispatcher();
+			_tick = new Signal(uint);
 			
 			_now = 0;
 			_offset = getTimer();
@@ -67,7 +68,7 @@ package gaia.lib.time
 			_tick.dispatch(_now);
 		}
 
-		final public function get tick():Notice
+		final public function get tick():ISignal
 		{
 			return _tick;
 		}
