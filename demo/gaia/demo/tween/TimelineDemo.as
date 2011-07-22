@@ -2,6 +2,7 @@ package gaia.demo.tween
 {
 	import gaia.lib.time.Timeline;
 	import gaia.lib.tween.Tweens;
+	import gaia.lib.tween.easing.Quad;
 	import gaia.lib.tween.form.property.PropertyTweenForm;
 	import gaia.lib.tween.form.property.PropertyTweenMap;
 	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
@@ -78,7 +79,7 @@ package gaia.demo.tween
 		{
 			var i:int = COUNT;
 			while (i--)
-				tweens.add(forms[i], 3000);
+				tweens.add(forms[i], 3000, 0, Quad.easeOut);
 		}
 		
 		private function generateForms(template:BitmapData):Vector.<PropertyTweenForm>

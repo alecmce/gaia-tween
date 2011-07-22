@@ -74,6 +74,9 @@ package gaia.lib.notice
 		
 		public function dispatch(params:Array):void
 		{
+			if (_lock)
+				return;
+			
 			_lock = true;
 			
 			i = _count;

@@ -21,6 +21,7 @@ package gaia.lib.notice
 			_listeners = new Vector.<Function>(_size, true);
 			_count = 0;
 			
+			_lock = false;
 			_removals = new Vector.<Function>();
 		}
 
