@@ -8,7 +8,7 @@ package gaia.lib.tween.form.method
 		private var _fn:Function;
 		private var _params:Array;
 
-		public function ParameterizedMethodTweenForm(fn:Function, ... params)
+		public function ParameterizedMethodTweenForm(fn:Function, params:Array)
 		{
 			_fn = fn;
 			
