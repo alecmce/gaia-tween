@@ -1,7 +1,7 @@
 package gaia.demo.tween
 {
-	import flash.geom.ColorTransform;
-	import gaia.lib.time.SimpleTime;
+	import gaia.lib.time.PausableTime;
+	import gaia.lib.time.pause.IntrinsictTimeStrategy;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
@@ -10,13 +10,16 @@ package gaia.demo.tween
 	import gaia.lib.util.Random;
 
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
 
 	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")]
 	public class ColorDemo extends Sprite
 	{
 		private static const SIZE:uint = 40;
 		
-		private var time:SimpleTime;
+		private var time:PausableTime;
 		private var random:Random;
 		private var map:ColorTweenMap;
 		
@@ -30,7 +33,9 @@ package gaia.demo.tween
 		
 		public function ColorDemo()
 		{
-			time = new SimpleTime();
+			time = new PausableTime(new IntrinsictTimeStrategy());
+			time.pause();
+			
 			random = new Random();
 			map = new ColorTweenMap();
 			
@@ -40,6 +45,19 @@ package gaia.demo.tween
 			forms = generateForms();
 			
 			restart();
+			
+			stage.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			stage.addEventListener(Event.MOUSE_LEAVE, onMouseLeave);
+		}
+
+		private function onMouseOver(event:MouseEvent):void
+		{
+			time.resume();
+		}
+
+		private function onMouseLeave(event:Event):void
+		{
+			time.pause();
 		}
 		
 		private function restart(t:Tween = null):void
