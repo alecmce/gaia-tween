@@ -2,6 +2,7 @@ package gaia.lib.tween
 {
 	import asunit.asserts.assertEquals;
 	import asunit.asserts.assertNotNull;
+	import asunit.asserts.fail;
 	import asunit.framework.Async;
 
 	import gaia.lib.time.PausableTime;
@@ -78,6 +79,27 @@ package gaia.lib.tween
 		private function onTimerComplete2(event:TimerEvent):void
 		{
 			assertEquals(1, count);
+		}
+		
+		[Test]
+		public function a_cancelled_tween_does_not_complete():void
+		{
+			var timer:Timer = new Timer(200, 1);
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete3, 220));
+			timer.start();
+			
+			mock = new MockTweenForm("a");
+			tween = tweens.add(mock, 100);
+			tween.completed.addOnce(onSignalCompleted2);
+			tween.cancel();
+		}
+		private function onSignalCompleted2(tween:Tween):void
+		{
+			fail("this signal should not be called");
+		}
+		private function onTimerComplete3(event:TimerEvent):void
+		{
+			// pass
 		}
 		
 	}
