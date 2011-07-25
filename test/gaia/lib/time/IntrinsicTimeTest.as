@@ -1,6 +1,6 @@
 package gaia.lib.time
 {
-	import gaia.lib.time.pause.IntrinsictTimeStrategy;
+	import gaia.lib.time.pause.IntrinsicTimeStrategy;
 	import asunit.asserts.assertTrue;
 
 	import flash.events.TimerEvent;
@@ -12,7 +12,7 @@ package gaia.lib.time
 		
 		override protected function generateTime():PausableTime
 		{
-			return new PausableTime(new IntrinsictTimeStrategy());
+			return new PausableTime(new IntrinsicTimeStrategy());
 		}
 		
 		[Test]

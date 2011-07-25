@@ -7,7 +7,7 @@ package gaia.lib.tween
 
 	import gaia.lib.time.PausableTime;
 	import gaia.lib.time.Time;
-	import gaia.lib.time.pause.IntrinsictTimeStrategy;
+	import gaia.lib.time.pause.IntrinsicTimeStrategy;
 
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
@@ -27,7 +27,7 @@ package gaia.lib.tween
 		[Before]
 		public function before():void
 		{
-			time = new PausableTime(new IntrinsictTimeStrategy());
+			time = new PausableTime(new IntrinsicTimeStrategy());
 			tweens = new Tweens(time, 20);
 			count = 0;
 		}

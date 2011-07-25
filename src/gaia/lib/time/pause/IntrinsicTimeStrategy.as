@@ -1,7 +1,7 @@
 package gaia.lib.time.pause
 {
 	
-	final public class IntrinsictTimeStrategy implements PauseStrategy
+	final public class IntrinsicTimeStrategy implements PauseStrategy
 	{
 
 		public function getTimeAtResume(timeAtPause:uint, pauseDuration:int):uint

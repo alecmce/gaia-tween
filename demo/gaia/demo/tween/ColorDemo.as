@@ -1,7 +1,7 @@
 package gaia.demo.tween
 {
 	import gaia.lib.time.PausableTime;
-	import gaia.lib.time.pause.IntrinsictTimeStrategy;
+	import gaia.lib.time.pause.IntrinsicTimeStrategy;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
@@ -33,7 +33,7 @@ package gaia.demo.tween
 		
 		public function ColorDemo()
 		{
-			time = new PausableTime(new IntrinsictTimeStrategy());
+			time = new PausableTime(new IntrinsicTimeStrategy());
 			time.pause();
 			
 			random = new Random();
