@@ -1,28 +1,22 @@
 package gaia.demo.tween.speed
 {
-
 	import gaia.demo.util.DemoRandom;
+	import gaia.lib.notice.SingularNotice;
+	import gaia.lib.notice.SingularNoticeDispatcher;
 	import gaia.lib.time.SimpleTime;
 	import gaia.lib.time.Time;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
-	import gaia.lib.tween.form.property.PropertyTweenForm;
-	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
-
-	import org.osflash.signals.ISignal;
-	import org.osflash.signals.Signal;
+	import gaia.lib.tween.form.motion.MotionTweenForm;
 
 	import flash.display.Sprite;
 	import flash.geom.Point;
-	public class GaiaSpeedDemo implements LibrarySpeedDemo
+	
+	public class GaiaMotionDemo implements LibrarySpeedDemo
 	{
-
-		private static const X:String = "x";
-		private static const Y:String = "y";
-
-		private var _completed:Signal;
+		private var _completed:SingularNoticeDispatcher;
 
 		private var _time:Time;
 		private var _random:DemoRandom;
@@ -30,8 +24,8 @@ package gaia.demo.tween.speed
 		private var _list:Vector.<Tween>;
 
 		private var _count:uint;
-		private var _forms:Vector.<PropertyTweenForm>;
-		private var _map:TweenOverlapManager;
+		private var _forms:Vector.<MotionTweenForm>;
+		private var _manager:TweenOverlapManager;
 
 		private var _tween:Tween;
 
@@ -39,13 +33,13 @@ package gaia.demo.tween.speed
 
 		private var _iterations:uint;
 
-		public function GaiaSpeedDemo(random:DemoRandom)
+		public function GaiaMotionDemo(random:DemoRandom)
 		{
-			_completed = new Signal();
+			_completed = new SingularNoticeDispatcher();
 
 			_time = new SimpleTime();
-			this._random = random;
-			_map = new TweenOverlapManager();
+			_random = random;
+			_manager = new TweenOverlapManager();
 
 			_isStarted = false;
 		}
@@ -55,15 +49,11 @@ package gaia.demo.tween.speed
 			_count = sprites.length;
 			_tweens = new Tweens(_time, _count);
 			_list = new Vector.<Tween>(_count, true);
-			_forms = new Vector.<PropertyTweenForm>(_count, true);
+			_forms = new Vector.<MotionTweenForm>(_count, true);
 
 			var i:int = _count;
-			var pt:Point = new Point();
 			while (i--)
-			{
-				pt = _random.nextPoint(pt);
-				_forms[i] = new SimplePropertyTweenForm(sprites[i], {x:pt.x, y:pt.y}, _map);
-			}
+				_forms[i] = new MotionTweenForm(sprites[i], 0, 0, _manager);
 		}
 
 		public function start(iterations:uint):void
@@ -95,10 +85,9 @@ package gaia.demo.tween.speed
 			var pt:Point = new Point();
 			while (i--)
 			{
-				var form:PropertyTweenForm = _forms[i];
+				var form:MotionTweenForm = _forms[i];
 				pt = _random.nextPoint(pt);
-				form.set(X, pt.x);
-				form.set(Y, pt.y);
+				form.set(pt.x, pt.y);
 				_list[i] = _tween = _tweens.add(form, 1000, 0, Quad.easeInOut);
 			}
 
@@ -114,7 +103,7 @@ package gaia.demo.tween.speed
 			_completed.dispatch();
 		}
 
-		public function get completed():ISignal
+		public function get completed():SingularNotice
 		{
 			return _completed;
 		}

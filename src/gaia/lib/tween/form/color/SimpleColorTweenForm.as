@@ -1,6 +1,7 @@
 package gaia.lib.tween.form.color
 {
 	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
 	import flash.display.DisplayObject;
 	import flash.geom.ColorTransform;
@@ -8,11 +9,14 @@ package gaia.lib.tween.form.color
 	
 	final public class SimpleColorTweenForm implements ColorTweenForm
 	{
+		private static const COLOR:String = "color";
+		private static const KEY:Vector.<String> = Vector.<String>([COLOR]);
+		
 		private static const R_MASK:uint = 0x00FF0000;
 		private static const G_MASK:uint = 0x0000FF00;
 		private static const B_MASK:uint = 0x000000FF;
 		
-		private var _map:ColorTweenMap;
+		private var _manager:TweenOverlapManager;
 		
 		private var _subject:DisplayObject;
 		private var _transform:Transform;
@@ -35,10 +39,10 @@ package gaia.lib.tween.form.color
 		
 		private var r:uint, g:uint, b:uint;
 		
-		public function SimpleColorTweenForm(subject:DisplayObject, color:uint, map:ColorTweenMap)
+		public function SimpleColorTweenForm(subject:DisplayObject, color:uint, manager:TweenOverlapManager)
 		{
 			_subject = subject;
-			_map = map;
+			_manager = manager;
 			
 			this.color = color;
 		}
@@ -58,7 +62,7 @@ package gaia.lib.tween.form.color
 		
 		public function bind(tween:Tween):void
 		{
-			_map.bind(_subject, this);
+			_manager.bind(_subject, KEY, this);
 			_isDisabled = false;
 			
 			_transform = _subject.transform;
@@ -75,9 +79,10 @@ package gaia.lib.tween.form.color
 			_rangeB = _endB - _startB;
 		}
 		
-		public function disable():void
+		public function disable(key:String):void
 		{
-			_isDisabled = true;
+			if (key == COLOR)
+				_isDisabled = true;
 		}
 		
 		public function update(proportion:Number):void
@@ -95,7 +100,7 @@ package gaia.lib.tween.form.color
 
 		public function unbind(tween:Tween):void
 		{
-			_map.unbind(_subject);
+			_manager.unbind(_subject, KEY);
 		}
 		
 	}

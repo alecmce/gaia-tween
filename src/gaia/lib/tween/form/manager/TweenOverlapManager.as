@@ -1,17 +1,17 @@
-package gaia.lib.tween.form.property
+package gaia.lib.tween.form.manager
 {
 	import flash.utils.Dictionary;
 	
-	public class PropertyTweenMap
+	public class TweenOverlapManager
 	{
 		private var _map:Dictionary;
 
-		public function PropertyTweenMap()
+		public function TweenOverlapManager()
 		{
 			_map = new Dictionary(true);
 		}
 
-		public function bind(subject:*, keys:Vector.<String>, form:PropertyTweenForm):void
+		public function bind(subject:*, keys:Vector.<String>, form:ManagedTweenForm):void
 		{
 			var map:Object = _map[subject] ||= {};
 			
@@ -19,7 +19,7 @@ package gaia.lib.tween.form.property
 			while (i--)
 			{
 				var key:String = keys[i];
-				var other:PropertyTweenForm = map[key];
+				var other:ManagedTweenForm = map[key];
 				if (other)
 					other.disable(key);
 				

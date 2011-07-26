@@ -1,10 +1,11 @@
 package gaia.lib.tween.form.property
 {
 	import flash.utils.Dictionary;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
 	
 	final public class PropertyTweenFormPool
 	{
-		private var _map:PropertyTweenMap;
+		private var _map:TweenOverlapManager;
 		
 		private var _dimension:uint;
 		private var _length:uint;
@@ -12,7 +13,7 @@ package gaia.lib.tween.form.property
 		private var _count:uint;
 		private var _propertyMaps:Dictionary;
 		
-		public function PropertyTweenFormPool(map:PropertyTweenMap, initialCount:uint)
+		public function PropertyTweenFormPool(map:TweenOverlapManager, initialCount:uint)
 		{
 			_map = map;
 			
