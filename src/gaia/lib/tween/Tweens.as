@@ -65,18 +65,14 @@ package gaia.lib.tween
 					
 					_list[n] = tween;
 					tween.index = n;
-					tween.complete();
 				}
 			}
 			
 			i = _count;
 			_count = n;
 			
-			while (i-- > n)
-			{
-				tween = _list[i];
-				tween.dispatch();
-			}
+			while (n < i)
+				_list[n++].dispatch();
 			
 			if (_count == 0)
 				_time.tick.remove(iterate);

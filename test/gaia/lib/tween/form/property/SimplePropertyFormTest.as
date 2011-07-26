@@ -2,14 +2,15 @@ package gaia.lib.tween.form.property
 {
 	import asunit.asserts.assertEquals;
 	import asunit.framework.Async;
-
-	import gaia.lib.time.SimpleTime;
-	import gaia.lib.tween.Tweens;
-	import gaia.lib.tween.easing.Quad;
-
 	import flash.display.Sprite;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import gaia.lib.time.SimpleTime;
+	import gaia.lib.tween.Tweens;
+	import gaia.lib.tween.easing.Quad;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
+
+
 	
 	public class SimplePropertyFormTest
 	{
@@ -20,7 +21,7 @@ package gaia.lib.tween.form.property
 		public var async:Async;
 		
 		private var tweens:Tweens;
-		private var map:PropertyTweenMap;
+		private var map:TweenOverlapManager;
 		private var sprite:Sprite;
 		private var timer:Timer;
 		
@@ -32,7 +33,7 @@ package gaia.lib.tween.form.property
 			var time:SimpleTime = new SimpleTime();
 			tweens = new Tweens(time, 2);
 			
-			map = new PropertyTweenMap();
+			map = new TweenOverlapManager();
 			
 			sprite = generateBall();
 			container.addChild(sprite);
