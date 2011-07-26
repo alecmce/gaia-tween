@@ -30,8 +30,6 @@ package gaia.demo.tween
 		
 		private var _forms:Vector.<SimpleColorTweenForm>;
 		
-		private var _tween:Tween;
-		
 		public function ColorDemo()
 		{
 			_time = new PausableTime(new IntrinsicTimeStrategy());
@@ -45,7 +43,7 @@ package gaia.demo.tween
 			_tweens = new Tweens(_time, _count);
 			_forms = generateForms();
 			
-			restart();
+			start();
 			
 			stage.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 			stage.addEventListener(Event.MOUSE_LEAVE, onMouseLeave);
@@ -61,17 +59,26 @@ package gaia.demo.tween
 			_time.pause();
 		}
 		
-		private function restart(t:Tween = null):void
+		private function start():void
 		{
 			var i:int = _count;
 			while (i--)
 			{
 				var form:SimpleColorTweenForm = _forms[i];
+				var time:uint = _random.nextInt(500) + 750;
 				form.color = _random.nextColor();
-				_tween = _tweens.add(form, 1000, 0, Quad.easeInOut);
+				
+				_tweens.add(form, time, 0, Quad.easeInOut).completed.addOnce(onTweenComplete);
 			}
+		}
+
+		private function onTweenComplete(tween:Tween):void
+		{
+			var form:SimpleColorTweenForm = tween.form as SimpleColorTweenForm;
+			form.color = _random.nextColor();
 			
-			_tween.completed.addOnce(restart);
+			var time:uint = _random.nextInt(500) + 750;
+			_tweens.add(form, time, 0, Quad.easeInOut).completed.addOnce(onTweenComplete);
 		}
 		
 		private function generateForms():Vector.<SimpleColorTweenForm>

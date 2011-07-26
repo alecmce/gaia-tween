@@ -66,7 +66,7 @@ package gaia.lib.tween
 		public function when_a_tween_completes_it_notifies_listeners():void
 		{
 			var timer:Timer = new Timer(200, 1);
-			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete2, 220));
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete2, 300));
 			timer.start();
 			
 			mock = new MockTweenForm("a");
@@ -100,6 +100,26 @@ package gaia.lib.tween
 		private function onTimerComplete3(event:TimerEvent):void
 		{
 			// pass
+		}
+		
+		[Test]
+		public function the_tween_form_is_accessible_in_the_notification_handler():void
+		{
+			var timer:Timer = new Timer(200, 1);
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete4, 220));
+			timer.start();
+			
+			mock = new MockTweenForm("a");
+			tweens.add(mock, 100).completed.addOnce(onSignalCompleted3);
+		}
+		private function onSignalCompleted3(tween:Tween):void
+		{
+			if (mock == tween.form)
+				++count;
+		}
+		private function onTimerComplete4(event:TimerEvent):void
+		{
+			assertEquals(1, count);
 		}
 		
 	}
