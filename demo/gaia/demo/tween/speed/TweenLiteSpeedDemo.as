@@ -1,12 +1,14 @@
-package gaia.demo.tween.speed {
+package gaia.demo.tween.speed
+{
+	import gaia.demo.util.DemoRandom;
 	import gaia.lib.notice.SingularNotice;
 	import gaia.lib.notice.SingularNoticeDispatcher;
-	import gaia.lib.util.Random;
 
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Quad;
 
 	import flash.display.Sprite;
+	import flash.geom.Point;
 
 	public class TweenLiteSpeedDemo implements LibrarySpeedDemo
 	{
@@ -16,32 +18,31 @@ package gaia.demo.tween.speed {
 		
 		private var _completed:SingularNoticeDispatcher;
 		
-		private var sprites:Vector.<Sprite>;
-		private var count:uint;
-		private var props:Vector.<Object>;
-		private var random:Random;
+		private var _sprites:Vector.<Sprite>;
+		private var _count:uint;
+		private var _props:Vector.<Object>;
+		private var _random:DemoRandom;
 		
 		private var prop:Object;
 		private var isStarted:Boolean;
-		private var _iterations : uint;
+		private var _iterations:uint;
 
-		public function TweenLiteSpeedDemo(random:Random)
+		public function TweenLiteSpeedDemo(random:DemoRandom)
 		{
-			this.random = random;
+			_random = random;
 		}
-
 		
 		public function init(sprites:Vector.<Sprite>):void
 		{
 			_completed = new SingularNoticeDispatcher();
 			
-			this.sprites = sprites;
-			count = sprites.length;
-			props = new Vector.<Object>(count, true);
+			this._sprites = sprites;
+			_count = sprites.length;
+			_props = new Vector.<Object>(_count, true);
 			
-			var i:int = count;
+			var i:int = _count;
 			while (i--)
-				props[i] = {x:0, y:0, ease:Quad.easeInOut};
+				_props[i] = {x:0, y:0, ease:Quad.easeInOut};
 		}
 
 		public function start(iterations:uint):void
@@ -56,12 +57,14 @@ package gaia.demo.tween.speed {
 
 		private function restart(t:TweenLite = null):void
 		{
-			var i:int = count;
+			var i:int = _count;
+			var pt:Point = new Point();
 			while (i--)
 			{
-				prop = props[i];
-				prop[X] = random.nextInt(700) + 50;
-				prop[Y] = random.nextInt(500) + 50;
+				prop = _props[i];
+				pt = _random.nextPoint(pt);
+				prop[X] = pt.x;
+				prop[Y] = pt.y;
 				if (i == 0)
 				{
 					if (_iterations--)
@@ -70,7 +73,7 @@ package gaia.demo.tween.speed {
 						prop[ON_COMPLETE] = complete;
 				}
 				
-				TweenLite.to(sprites[i], 1, prop);
+				TweenLite.to(_sprites[i], 1, prop);
 			}
 		}
 
@@ -87,9 +90,9 @@ package gaia.demo.tween.speed {
 			
 			isStarted = false;
 			
-			var i:int = count;
+			var i:int = _count;
 			while (i--)
-				TweenLite.killTweensOf(sprites[i]);
+				TweenLite.killTweensOf(_sprites[i]);
 		}
 
 		public function get completed():SingularNotice

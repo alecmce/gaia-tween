@@ -1,5 +1,6 @@
 package gaia.lib.tween.form.property {
 	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
 	
 	final internal class PooledPropertyTweenForm implements PropertyTweenForm
 	{
@@ -7,7 +8,7 @@ package gaia.lib.tween.form.property {
 		private var _index:uint;
 		
 		private var _subject:*;
-		private var _map:PropertyTweenMap;
+		private var _map:TweenOverlapManager;
 		
 		private var _count:uint;
 		private var _active:uint;
@@ -18,7 +19,7 @@ package gaia.lib.tween.form.property {
 		
 		private var i:uint;
 
-		public function PooledPropertyTweenForm(pool:PropertyTweenFormPool, map:PropertyTweenMap)
+		public function PooledPropertyTweenForm(pool:PropertyTweenFormPool, map:TweenOverlapManager)
 		{
 			_pool = pool;
 			_map = map;

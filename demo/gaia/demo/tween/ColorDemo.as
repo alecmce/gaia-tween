@@ -1,48 +1,49 @@
 package gaia.demo.tween
 {
+	import gaia.demo.util.DemoRandom;
 	import gaia.lib.time.PausableTime;
 	import gaia.lib.time.pause.IntrinsicTimeStrategy;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
-	import gaia.lib.tween.form.color.ColorTweenMap;
 	import gaia.lib.tween.form.color.SimpleColorTweenForm;
-	import gaia.lib.util.Random;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
+	import flash.geom.Rectangle;
 
 	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")]
 	public class ColorDemo extends Sprite
 	{
 		private static const SIZE:uint = 40;
 		
-		private var time:PausableTime;
-		private var random:Random;
-		private var map:ColorTweenMap;
+		private var _time:PausableTime;
+		private var _random:DemoRandom;
+		private var _manager:TweenOverlapManager;
 		
-		private var grid:Vector.<Sprite>;
-		private var count:uint;
-		private var tweens:Tweens;
+		private var _grid:Vector.<Sprite>;
+		private var _count:uint;
+		private var _tweens:Tweens;
 		
-		private var forms:Vector.<SimpleColorTweenForm>;
+		private var _forms:Vector.<SimpleColorTweenForm>;
 		
-		private var tween:Tween;
+		private var _tween:Tween;
 		
 		public function ColorDemo()
 		{
-			time = new PausableTime(new IntrinsicTimeStrategy());
-			time.pause();
+			_time = new PausableTime(new IntrinsicTimeStrategy());
+			_time.pause();
 			
-			random = new Random();
-			map = new ColorTweenMap();
+			_random = new DemoRandom(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+			_manager = new TweenOverlapManager();
 			
-			grid = generateGrid();
-			count = grid.length;
-			tweens = new Tweens(time, count);
-			forms = generateForms();
+			_grid = generateGrid();
+			_count = _grid.length;
+			_tweens = new Tweens(_time, _count);
+			_forms = generateForms();
 			
 			restart();
 			
@@ -52,34 +53,34 @@ package gaia.demo.tween
 
 		private function onMouseOver(event:MouseEvent):void
 		{
-			time.resume();
+			_time.resume();
 		}
 
 		private function onMouseLeave(event:Event):void
 		{
-			time.pause();
+			_time.pause();
 		}
 		
 		private function restart(t:Tween = null):void
 		{
-			var i:int = count;
+			var i:int = _count;
 			while (i--)
 			{
-				var form:SimpleColorTweenForm = forms[i];
-				form.color = randomColor();
-				tween = tweens.add(form, 1000, 0, Quad.easeInOut);
+				var form:SimpleColorTweenForm = _forms[i];
+				form.color = _random.nextColor();
+				_tween = _tweens.add(form, 1000, 0, Quad.easeInOut);
 			}
 			
-			tween.completed.addOnce(restart);
+			_tween.completed.addOnce(restart);
 		}
 		
 		private function generateForms():Vector.<SimpleColorTweenForm>
 		{
-			var forms:Vector.<SimpleColorTweenForm> = new Vector.<SimpleColorTweenForm>(count, true);
+			var forms:Vector.<SimpleColorTweenForm> = new Vector.<SimpleColorTweenForm>(_count, true);
 			
-			var i:int = count;
+			var i:int = _count;
 			while (i--)
-				forms[i] = new SimpleColorTweenForm(grid[i], 0, map);
+				forms[i] = new SimpleColorTweenForm(_grid[i], 0, _manager);
 			
 			return forms;
 		}
@@ -108,7 +109,7 @@ package gaia.demo.tween
 			s.graphics.endFill();
 
 			var t:ColorTransform = s.transform.colorTransform;
-			t.color = randomColor();
+			t.color = _random.nextColor();
 			s.transform.colorTransform = t;
 			
 			s.x = x * SIZE;
@@ -118,13 +119,5 @@ package gaia.demo.tween
 			return s;
 		}
 		
-		private function randomColor():uint
-		{
-			var r:uint = random.nextInt(0xFF) << 16;
-			var g:uint = random.nextInt(0xFF) << 8;
-			var b:uint = random.nextInt(0xFF);
-			
-			return 0xFF000000 | r | g | b;
-		}
 	}
 }
