@@ -5,9 +5,8 @@ package gaia.lib.tween
 	import asunit.asserts.fail;
 	import asunit.framework.Async;
 
-	import gaia.lib.time.PausableTime;
+	import gaia.lib.time.SimpleTime;
 	import gaia.lib.time.Time;
-	import gaia.lib.time.pause.IntrinsicTimeStrategy;
 
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
@@ -18,6 +17,7 @@ package gaia.lib.tween
 		private var time:Time;
 		private var tweens:Tweens;
 		private var mock:MockTweenForm;
+		private var alt:MockTweenForm;
 		private var tween:Tween;
 		private var count:uint;
 		
@@ -27,7 +27,7 @@ package gaia.lib.tween
 		[Before]
 		public function before():void
 		{
-			time = new PausableTime(new IntrinsicTimeStrategy());
+			time = new SimpleTime();
 			tweens = new Tweens(time, 20);
 			count = 0;
 		}
@@ -121,6 +121,29 @@ package gaia.lib.tween
 		{
 			assertEquals(1, count);
 		}
+		
+		[Test]
+		public function tweens_that_complete_together_can_reinitialize_together():void
+		{
+			var timer:Timer = new Timer(300, 1);
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete5, 320));
+			timer.start();
+			
+			mock = new MockTweenForm("a");
+			alt = new MockTweenForm("b");
+			tweens.add(mock, 100).completed.addOnce(onSignalCompleted4);
+			tweens.add(alt, 100);
+		}
+		private function onSignalCompleted4(tween:Tween):void
+		{
+			tweens.add(mock, 100);
+			tweens.add(alt, 100);
+		}
+		private function onTimerComplete5(event:TimerEvent):void
+		{
+			// pass
+		}
+		
 		
 	}
 	

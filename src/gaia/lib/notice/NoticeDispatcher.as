@@ -32,7 +32,13 @@ package gaia.lib.notice
 		{
 			return singular.remove(listener) || listeners.remove(listener);
 		}
-
+		
+		final public function removeAll():void
+		{
+			singular.removeAll();
+			listeners.removeAll();
+		}
+		
 		final public function dispatch(...params):void
 		{
 			listeners.dispatch(params);

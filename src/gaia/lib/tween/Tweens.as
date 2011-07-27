@@ -65,6 +65,7 @@ package gaia.lib.tween
 					
 					_list[n] = tween;
 					tween.index = n;
+					tween.complete();
 				}
 			}
 			

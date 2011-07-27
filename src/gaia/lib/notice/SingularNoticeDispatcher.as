@@ -20,6 +20,11 @@ package gaia.lib.notice
 			return singular.remove(listener);
 		}
 
+		final public function removeAll():void
+		{
+			singular.removeAll();
+		}
+
 		final public function dispatch(...params):void
 		{
 			singular.dispatch(params);

@@ -22,14 +22,8 @@ package gaia.lib.tween
 		
 		public var autoComplete:Boolean;
 
-		private static var INDEX:uint = 0;
-		private var __index:uint;
-		public function toString():String { return "[Tween " + __index + "]"; }
-
 		public function Tween(pool:Tweens, index:uint)
 		{
-			__index = ++INDEX;
-			
 			_pool = pool;
 			this.index = index;
 			this.autoComplete = true;
@@ -37,9 +31,15 @@ package gaia.lib.tween
 
 		public function cancel():void
 		{
+			if (!_form)
+				return;
+				
 			_form.unbind(this);
 			_form = null;
 			autoComplete = true;
+			
+			if (_completed)
+				_completed.removeAll();
 			
 			_pool.onCancelled(this);
 		}
@@ -49,14 +49,12 @@ package gaia.lib.tween
 			return _completed ||= new SingularNoticeDispatcher();
 		}
 
-		private var inited:uint = 0;
 		internal function init(form:TweenForm, start:uint, end:uint, ease:Function):void
 		{
 			_start = start;
 			_end = end;
 			_invDuration = 1 / (end - start);
 			
-			++inited;
 			_form = form;
 			_form.bind(this);
 			
@@ -64,13 +62,16 @@ package gaia.lib.tween
 			update = _ease != null ? eased_update : vanilla_update;
 		}
 		
-		internal function dispatch():void
+		internal function complete():void
 		{
 			_dummy = _form;
 			_form.unbind(this);
 			_form = null;
 			autoComplete = true;
-			
+		}
+		
+		internal function dispatch():void
+		{
 			if (_completed)
 				_completed.dispatch(this);
 			

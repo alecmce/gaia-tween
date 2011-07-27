@@ -16,12 +16,9 @@ package gaia.lib.tween.form.motion
 		
 		private var _isDisabled:Boolean;
 		
-		private var _sx:Number;
-		private var _sy:Number;
-		private var _dx:Number;
-		private var _dy:Number;
-		private var _ex:Number;
-		private var _ey:Number;
+		private var _sx:Number, _sy:Number;
+		private var _dx:Number, _dy:Number;
+		private var _ex:Number, _ey:Number;
 		
 		public function MotionTweenForm(subject:DisplayObject, x:Number, y:Number, map:TweenOverlapManager)
 		{

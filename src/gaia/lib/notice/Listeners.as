@@ -69,6 +69,25 @@ package gaia.lib.notice
 			return true;
 		}
 		
+		public function removeAll():void
+		{
+			var i:int = _count;
+			
+			if (_lock)
+			{
+				while (i--)
+				{
+					var listener:Function = _listeners[i];
+					if (_removals.indexOf(listener) == -1)
+						_removals.push(_listeners[i]);
+				}
+			}
+			
+			_count = 0;
+			while (i--)
+				_listeners[i] = null;
+		}
+		
 		public function dispatch(params:Array):void
 		{
 			if (_lock)
