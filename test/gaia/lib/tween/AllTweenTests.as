@@ -9,7 +9,9 @@ package gaia.lib.tween
 		
 		public var easing:AllEasingTests;
 		public var form:AllFormTests;
-		public var tweensTest:TweensTest;
+		
+		public var tweens:TweensTest;
+		public var reversible:ReversibleTweensTest;
 		
 	}
 }
