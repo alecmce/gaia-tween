@@ -1,11 +1,5 @@
 package gaia.demo.tween
 {
-	import com.bit101.components.PushButton;
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import flash.geom.ColorTransform;
-	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
 	import gaia.demo.tween.graph.DemoGraph;
 	import gaia.demo.tween.graph.GraphVO;
 	import gaia.lib.time.SimpleTime;
@@ -22,7 +16,13 @@ package gaia.demo.tween
 	import gaia.lib.tween.easing.Sine;
 	import gaia.lib.tween.form.MethodTweenForm;
 
+	import com.bit101.components.PushButton;
 
+	import flash.display.Sprite;
+	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
+	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
 	
 	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")]
 	public class EaseDemo extends Sprite

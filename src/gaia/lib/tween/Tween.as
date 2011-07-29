@@ -55,9 +55,8 @@ package gaia.lib.tween
 			else
 				update = _ease != null ? eased_update : vanilla_update;
 			
-			_start = (_time << 1) - _start - _duration;
-			_end = _time + _duration;
-			
+			_start = (_time << 1) - _end;
+			_end = _start + _duration;
 			
 			return true;
 		}
@@ -102,8 +101,10 @@ package gaia.lib.tween
 		internal function complete():void
 		{
 			_dummy = _form;
+			
 			_form.unbind(this);
 			_form = null;
+			
 			autoComplete = true;
 		}
 		
@@ -114,7 +115,7 @@ package gaia.lib.tween
 			
 			_dummy = null;
 			
-			if (!_resurrected)
+			if (!_resurrected || !_form)
 				return false;
 			
 			_resurrected = false;
@@ -161,7 +162,7 @@ package gaia.lib.tween
 		
 		private function vanilla_reversed(time:uint):Boolean
 		{
-			if (time >= _end)
+			if ((_time = time) >= _end)
 			{
 				_form.update(0);
 				return autoComplete;
@@ -177,7 +178,7 @@ package gaia.lib.tween
 		
 		private function eased_reversed(time:uint):Boolean
 		{
-			if (time >= _end)
+			if ((_time = time) >= _end)
 			{
 				_form.update(0);
 				return autoComplete;
