@@ -1,12 +1,12 @@
 package gaia.demo.tween.graph
 {
-	import flash.geom.ColorTransform;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
 	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
 
 	import flash.display.Sprite;
+	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.text.AntiAliasType;
@@ -17,6 +17,8 @@ package gaia.demo.tween.graph
 	
 	public class DemoGraph extends Sprite
 	{
+		private const GRAPH_FIDELITY:uint = 1000;
+		private const GRAPH_DX:Number = 1 / GRAPH_FIDELITY;
 		
 		[Embed(source="../../../../../bin/assets/helvetica.swf", symbol="helvetica")]
 		private var helveticaFont:Class;
@@ -32,11 +34,14 @@ package gaia.demo.tween.graph
 		private var _width:Number;
 		private var _height:Number;
 		
+		private var _title:TextField;
 		private var _line:Sprite;
 		private var _linealt:Sprite;
 		private var _focus:Sprite;
 		private var _axes:Sprite;
-		private var _title:TextField;
+		private var _ball:Sprite;
+		
+		private var _current:GraphVO;
 		
 		public function DemoGraph(tweens:Tweens, rect:Rectangle)
 		{
@@ -53,14 +58,72 @@ package gaia.demo.tween.graph
 			addChild(_linealt = new Sprite());
 			addChild(_focus = new Sprite());
 			addChild(_axes = drawAxes());
+			addChild(_ball = generateBall());
+			
+			_ball.x = rect.right;
 		}
 		
-		public function set title(value:String):void
+		public function get current():GraphVO
 		{
-			_title.text = value;
+			return _current;
 		}
 		
-		public function plot(points:Vector.<Point>, color:uint):void
+		public function set current(vo:GraphVO):void
+		{
+			if (_current == vo)
+				return;
+			
+			_current = vo;
+			
+			_title.text = vo.label;
+
+			var graph:Vector.<Point> = calculateGraph(vo.fn);
+			drawGraph(graph, vo.color);
+			
+			var ct:ColorTransform = _ball.transform.colorTransform;
+			ct.color = vo.color;
+			_ball.transform.colorTransform = ct;
+			
+			focus(0);
+		}
+		
+		public function focus(x:Number):void
+		{
+			var y:Number = _current.fn(x);
+			
+			_focus.graphics.clear();
+			_focus.graphics.lineStyle(1, _color);
+			
+			x = _left + x * _width;
+			y = _bottom - y * _height;
+			
+			_focus.graphics.moveTo(x, _bottom);
+			_focus.graphics.lineTo(x, y);
+			
+			_focus.graphics.moveTo(_left, y);
+			_focus.graphics.lineTo(_left + _width, y);
+			
+			_focus.graphics.drawCircle(x, y, 5);
+			
+			_ball.y = y;
+		}
+		
+		private function calculateGraph(ease:Function):Vector.<Point>
+		{
+			var pts:Vector.<Point> = new Vector.<Point>(GRAPH_FIDELITY + 1, true);
+			
+			var x:Number = 1;
+			var i:uint = GRAPH_FIDELITY + 1;
+			while (i--)
+			{
+				x = i * GRAPH_DX;
+				pts[i] = new Point(x, ease(x));
+			}
+			
+			return pts;
+		}
+		
+		private function drawGraph(points:Vector.<Point>, color:uint):void
 		{
 			if (_fade)
 				_fade.cancel();
@@ -90,23 +153,6 @@ package gaia.demo.tween.graph
 			var ct:ColorTransform = _title.transform.colorTransform;
 			ct.color = color;
 			_title.transform.colorTransform = ct;
-		}
-		
-		public function focus(x:Number, y:Number):void
-		{
-			_focus.graphics.clear();
-			_focus.graphics.lineStyle(1, _color);
-			
-			x = _left + x * _width;
-			y = _bottom - y * _height;
-			
-			_focus.graphics.moveTo(x, _bottom);
-			_focus.graphics.lineTo(x, y);
-			
-			_focus.graphics.moveTo(_left, y);
-			_focus.graphics.lineTo(_left + _width, y);
-			
-			_focus.graphics.drawCircle(x, y, 5);
 		}
 		
 		private function titleText():TextField
@@ -178,6 +224,17 @@ package gaia.demo.tween.graph
 			tf.rotation = -90;
 			tf.x -= tf.textHeight + 4;
 			sprite.addChild(tf);
+			
+			return sprite;
+		}
+		
+		private function generateBall():Sprite
+		{
+			var sprite:Sprite = new Sprite();
+			
+			sprite.graphics.beginFill(0xFFFFFF);
+			sprite.graphics.drawCircle(0, 0, 5);
+			sprite.graphics.endFill();
 			
 			return sprite;
 		}
