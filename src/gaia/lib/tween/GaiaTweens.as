@@ -2,16 +2,16 @@ package gaia.lib.tween
 {
 	import gaia.lib.time.SimpleTime;
 	import gaia.lib.time.Time;
+	import gaia.lib.tween.form.ColorTweenForm;
+	import gaia.lib.tween.form.MethodTweenForm;
+	import gaia.lib.tween.form.MotionTweenForm;
+	import gaia.lib.tween.form.ParameterizedMethodTweenForm;
+	import gaia.lib.tween.form.PropertyTweenForm;
 	import gaia.lib.tween.form.TweenForm;
-	import gaia.lib.tween.form.color.ColorTweenForm;
-	import gaia.lib.tween.form.color.SimpleColorTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
-	import gaia.lib.tween.form.method.MethodTweenForm;
-	import gaia.lib.tween.form.method.ParameterizedMethodTweenForm;
-	import gaia.lib.tween.form.property.PropertyTweenForm;
-	import gaia.lib.tween.form.property.PropertyTweenFormPool;
 
 	import flash.display.DisplayObject;
+
 
 	
 	public class GaiaTweens
@@ -20,7 +20,6 @@ package gaia.lib.tween
 		private var _time:SimpleTime;
 		
 		private var _tweens:Tweens;
-		private var _propertyForms:PropertyTweenFormPool;
 		
 		private var _manager:TweenOverlapManager;
 		
@@ -30,14 +29,12 @@ package gaia.lib.tween
 			_time ||= new SimpleTime();
 			
 			_tweens = new Tweens(_time, count);
-			
 			_manager = new TweenOverlapManager();
-			_propertyForms = new PropertyTweenFormPool(_manager, _count);
 		}
 
 		public function tween(subject:*, properties:Object, duration:uint, delay:uint = 0, ease:Function = null):Tween
 		{
-			var form:PropertyTweenForm = _propertyForms.require(subject, properties);
+			var form:PropertyTweenForm = new PropertyTweenForm(subject, properties, _manager);
 			return _tweens.add(form, duration, delay, ease);
 		}
 		
@@ -49,10 +46,15 @@ package gaia.lib.tween
 		
 		public function color(subject:DisplayObject, color:uint, duration:uint, delay:uint = 0, ease:Function = null):Tween
 		{
-			var form:ColorTweenForm = new SimpleColorTweenForm(subject, color, _manager);
+			var form:ColorTweenForm = new ColorTweenForm(subject, color, _manager);
 			return _tweens.add(form, duration, delay, ease);
 		}
 		
+		public function goto(subject:DisplayObject, x:Number, y:Number, duration:uint, delay:uint = 0, ease:Function = null):Tween
+		{
+			var form:MotionTweenForm = new MotionTweenForm(subject, x, y, _manager);
+			return _tweens.add(form, duration, delay, ease);
+		}
 	}
 	
 }

@@ -1,4 +1,4 @@
-package gaia.lib.tween.form.property
+package gaia.lib.tween.form
 {
 	import asunit.asserts.assertEquals;
 	import asunit.framework.Async;
@@ -12,7 +12,7 @@ package gaia.lib.tween.form.property
 
 
 	
-	public class SimplePropertyFormTest
+	public class PropertyFormTest
 	{
 		[Inject]
 		public var container:Sprite;
@@ -54,7 +54,7 @@ package gaia.lib.tween.form.property
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete, 1200));
 			timer.start();
 			
-			form = new SimplePropertyTweenForm(sprite, {x:700, y:500}, map);
+			form = new PropertyTweenForm(sprite, {x:700, y:500}, map);
 			tweens.add(form, 1000, 0, Quad.easeInOut);
 		}
 		private function onTimerComplete(event:TimerEvent):void
@@ -70,10 +70,10 @@ package gaia.lib.tween.form.property
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete2, 1200));
 			timer.start();
 			
-			form = new SimplePropertyTweenForm(sprite, {x:700, y:500}, map);
+			form = new PropertyTweenForm(sprite, {x:700, y:500}, map);
 			tweens.add(form, 1000, 0, Quad.easeInOut);
 			
-			form = new SimplePropertyTweenForm(sprite, {x:700, y:100}, map);
+			form = new PropertyTweenForm(sprite, {x:700, y:100}, map);
 			tweens.add(form, 1000, 0, Quad.easeInOut);
 		}
 		private function onTimerComplete2(event:TimerEvent):void

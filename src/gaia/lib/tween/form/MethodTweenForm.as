@@ -1,7 +1,6 @@
-package gaia.lib.tween.form.method
+package gaia.lib.tween.form
 {
 	import gaia.lib.tween.Tween;
-	import gaia.lib.tween.form.TweenForm;
 
 	final public class MethodTweenForm implements TweenForm
 	{

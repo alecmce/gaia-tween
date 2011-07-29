@@ -1,4 +1,4 @@
-package gaia.lib.tween.form.motion
+package gaia.lib.tween.form
 {
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.form.manager.ManagedTweenForm;
@@ -6,27 +6,23 @@ package gaia.lib.tween.form.motion
 
 	import flash.display.DisplayObject;
 
-
-	public class MotionTweenForm implements ManagedTweenForm
+	final public class MotionTweenForm implements ManagedTweenForm
 	{
 		private static const KEYS:Vector.<String> = Vector.<String>(["x","y"]);
 		
 		private var _subject:DisplayObject;
-		private var _map:TweenOverlapManager;
+		private var _manager:TweenOverlapManager;
 		
 		private var _isDisabled:Boolean;
 		
-		private var _sx:Number;
-		private var _sy:Number;
-		private var _dx:Number;
-		private var _dy:Number;
-		private var _ex:Number;
-		private var _ey:Number;
+		private var _sx:Number, _sy:Number;
+		private var _dx:Number, _dy:Number;
+		private var _ex:Number, _ey:Number;
 		
-		public function MotionTweenForm(subject:DisplayObject, x:Number, y:Number, map:TweenOverlapManager)
+		public function MotionTweenForm(subject:DisplayObject, x:Number, y:Number, manager:TweenOverlapManager)
 		{
 			_subject = subject;
-			_map = map;
+			_manager = manager;
 			
 			_ex = x;
 			_ey = y;
@@ -48,7 +44,7 @@ package gaia.lib.tween.form.motion
 		
 		public function bind(tween:Tween):void
 		{
-			_map.bind(_subject, KEYS, this);
+			_manager.bind(_subject, KEYS, this);
 			_isDisabled = false;
 			
 			_sx = _subject.x;
@@ -68,7 +64,7 @@ package gaia.lib.tween.form.motion
 
 		public function unbind(tween:Tween):void
 		{
-			_map.unbind(_subject, KEYS);
+			_manager.unbind(_subject, KEYS);
 		}
 
 		public function disable(key:String):void

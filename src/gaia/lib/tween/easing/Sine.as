@@ -2,21 +2,21 @@ package gaia.lib.tween.easing
 {
 	public class Sine
 	{
-		private static const _HALF_PI:Number = Math.PI * 0.5;
+		private static const HALF_PI:Number = Math.PI * 0.5;
 
-		public static function easeIn(t:Number, b:Number, c:Number, d:Number):Number
+		public static function easeIn(p:Number):Number
 		{
-			return -c * Math.cos(t / d * _HALF_PI) + c + b;
+			return 1 - Math.cos(-p * HALF_PI);
 		}
 
-		public static function easeOut(t:Number, b:Number, c:Number, d:Number):Number
+		public static function easeOut(p:Number):Number
 		{
-			return c * Math.sin(t / d * _HALF_PI) + b;
+			return Math.sin(p * HALF_PI);
 		}
 
-		public static function easeInOut(t:Number, b:Number, c:Number, d:Number):Number
+		public static function easeInOut(p:Number):Number
 		{
-			return -c * 0.5 * (Math.cos(Math.PI * t / d) - 1) + b;
+			return -0.5 * (Math.cos(Math.PI * p) - 1);
 		}
 	}
 }

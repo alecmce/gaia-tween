@@ -1,17 +1,7 @@
 package gaia.demo.tween
 {
-	import gaia.demo.util.DemoRandom;
-	import gaia.lib.time.Timeline;
-	import gaia.lib.tween.Tween;
-	import gaia.lib.tween.Tweens;
-	import gaia.lib.tween.easing.Quad;
-	import gaia.lib.tween.form.manager.TweenOverlapManager;
-	import gaia.lib.tween.form.property.PropertyTweenForm;
-	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
-
 	import com.bit101.components.PushButton;
 	import com.bit101.components.Slider;
-
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -20,6 +10,15 @@ package gaia.demo.tween
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	import gaia.demo.util.DemoRandom;
+	import gaia.lib.time.Timeline;
+	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.Tweens;
+	import gaia.lib.tween.easing.Quad;
+	import gaia.lib.tween.form.PropertyTweenForm;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
+
+
 
 
 
@@ -118,7 +117,7 @@ package gaia.demo.tween
 				}
 				while (template.getPixel32(pt.x | 0, pt.y | 0) != 0xFF000000);
 				
-				forms[i] = new SimplePropertyTweenForm(_sprites[i], {x:pt.x, y:pt.y}, _manager);
+				forms[i] = new PropertyTweenForm(_sprites[i], {x:pt.x, y:pt.y}, _manager);
 			}
 			
 			return forms;

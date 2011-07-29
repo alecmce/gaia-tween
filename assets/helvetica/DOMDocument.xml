@@ -1,0 +1,18 @@
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#999999" width="100" height="100" currentTimeline="1" xflVersion="2.0" creatorInfo="Adobe Flash Professional CS5" platform="Macintosh" versionInfo="Saved by Adobe Flash Macintosh 11.0 build 489" majorVersion="11" buildNumber="489" guidesSnapTo="false" snapAlign="false" objectsSnapTo="false" viewAngle3D="7.83678448695659" vanishingPoint3DX="380" vanishingPoint3DY="330" nextSceneIdentifier="2" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false">
+     <fonts>
+          <DOMFontItem name="Helvetica" itemID="4e2fde14-0000005a" linkageExportForAS="true" linkageBaseClass="flash.text.Font" linkageClassName="helvetica" font="Helvetica" size="0" id="1" sourceLastImported="1311759892" embedRanges="1|2|3|4|5"/>
+     </fonts>
+     <timelines>
+          <DOMTimeline name="Scene 1">
+               <layers>
+                    <DOMLayer name="Layer 1" color="#4FFF4F" current="true" isSelected="true">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <elements/>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+               </layers>
+          </DOMTimeline>
+     </timelines>
+</DOMDocument>

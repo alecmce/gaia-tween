@@ -1,19 +1,19 @@
 package gaia.demo.tween
 {
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
+	import flash.geom.Rectangle;
 	import gaia.demo.util.DemoRandom;
 	import gaia.lib.time.PausableTime;
 	import gaia.lib.time.pause.IntrinsicTimeStrategy;
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
-	import gaia.lib.tween.form.color.SimpleColorTweenForm;
+	import gaia.lib.tween.form.ColorTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.ColorTransform;
-	import flash.geom.Rectangle;
 
 	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")]
 	public class ColorDemo extends Sprite
@@ -28,7 +28,7 @@ package gaia.demo.tween
 		private var _count:uint;
 		private var _tweens:Tweens;
 		
-		private var _forms:Vector.<SimpleColorTweenForm>;
+		private var _forms:Vector.<ColorTweenForm>;
 		
 		public function ColorDemo()
 		{
@@ -64,7 +64,7 @@ package gaia.demo.tween
 			var i:int = _count;
 			while (i--)
 			{
-				var form:SimpleColorTweenForm = _forms[i];
+				var form:ColorTweenForm = _forms[i];
 				var time:uint = _random.nextInt(500) + 750;
 				form.color = _random.nextColor();
 				
@@ -74,20 +74,20 @@ package gaia.demo.tween
 
 		private function onTweenComplete(tween:Tween):void
 		{
-			var form:SimpleColorTweenForm = tween.form as SimpleColorTweenForm;
+			var form:ColorTweenForm = tween.form as ColorTweenForm;
 			form.color = _random.nextColor();
 			
 			var time:uint = _random.nextInt(500) + 750;
 			_tweens.add(form, time, 0, Quad.easeInOut).completed.addOnce(onTweenComplete);
 		}
 		
-		private function generateForms():Vector.<SimpleColorTweenForm>
+		private function generateForms():Vector.<ColorTweenForm>
 		{
-			var forms:Vector.<SimpleColorTweenForm> = new Vector.<SimpleColorTweenForm>(_count, true);
+			var forms:Vector.<ColorTweenForm> = new Vector.<ColorTweenForm>(_count, true);
 			
 			var i:int = _count;
 			while (i--)
-				forms[i] = new SimpleColorTweenForm(_grid[i], 0, _manager);
+				forms[i] = new ColorTweenForm(_grid[i], 0, _manager);
 			
 			return forms;
 		}

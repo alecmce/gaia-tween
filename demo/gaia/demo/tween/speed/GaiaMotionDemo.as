@@ -6,8 +6,8 @@ package gaia.demo.tween.speed
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
+	import gaia.lib.tween.form.MotionTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
-	import gaia.lib.tween.form.motion.MotionTweenForm;
 
 	import org.osflash.signals.ISignal;
 	import org.osflash.signals.Signal;
