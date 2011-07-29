@@ -1,10 +1,5 @@
 package gaia.demo.tween.graph
 {
-	import gaia.lib.tween.Tween;
-	import gaia.lib.tween.Tweens;
-	import gaia.lib.tween.form.manager.TweenOverlapManager;
-	import gaia.lib.tween.form.property.SimplePropertyTweenForm;
-
 	import flash.display.Sprite;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
@@ -14,6 +9,11 @@ package gaia.demo.tween.graph
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
+	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.Tweens;
+	import gaia.lib.tween.form.PropertyTweenForm;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
+
 	
 	public class DemoGraph extends Sprite
 	{
@@ -134,7 +134,7 @@ package gaia.demo.tween.graph
 			_linealt = _line;
 			_line = tmp;
 
-			_fade = _tweens.add(new SimplePropertyTweenForm(_linealt, {alpha:0}, _manager), 500);
+			_fade = _tweens.add(new PropertyTweenForm(_linealt, {alpha:0}, _manager), 500);
 			
 			_line.graphics.clear();
 			_line.alpha = 1;

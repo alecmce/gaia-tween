@@ -1,13 +1,14 @@
-package gaia.lib.tween.form.color
+package gaia.lib.tween.form
 {
 	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.form.manager.ManagedTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
 	import flash.display.DisplayObject;
 	import flash.geom.ColorTransform;
 	import flash.geom.Transform;
-	
-	final public class SimpleColorTweenForm implements ColorTweenForm
+
+	final public class ColorTweenForm implements ManagedTweenForm
 	{
 		private static const COLOR:String = "color";
 		private static const KEY:Vector.<String> = Vector.<String>([COLOR]);
@@ -39,7 +40,7 @@ package gaia.lib.tween.form.color
 		
 		private var r:uint, g:uint, b:uint;
 		
-		public function SimpleColorTweenForm(subject:DisplayObject, color:uint, manager:TweenOverlapManager)
+		public function ColorTweenForm(subject:DisplayObject, color:uint, manager:TweenOverlapManager)
 		{
 			_subject = subject;
 			_manager = manager;

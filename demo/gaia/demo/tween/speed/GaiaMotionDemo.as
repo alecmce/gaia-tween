@@ -1,5 +1,7 @@
 package gaia.demo.tween.speed
 {
+	import flash.display.Sprite;
+	import flash.geom.Point;
 	import gaia.demo.util.DemoRandom;
 	import gaia.lib.notice.SingularNotice;
 	import gaia.lib.notice.SingularNoticeDispatcher;
@@ -8,11 +10,9 @@ package gaia.demo.tween.speed
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
+	import gaia.lib.tween.form.MotionTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
-	import gaia.lib.tween.form.motion.MotionTweenForm;
 
-	import flash.display.Sprite;
-	import flash.geom.Point;
 	
 	public class GaiaMotionDemo implements LibrarySpeedDemo
 	{
