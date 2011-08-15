@@ -6,6 +6,7 @@ package gaia.demo.tween
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Back;
+	import gaia.lib.tween.easing.Bounce;
 	import gaia.lib.tween.easing.Circ;
 	import gaia.lib.tween.easing.Cubic;
 	import gaia.lib.tween.easing.Expo;
@@ -57,9 +58,9 @@ package gaia.demo.tween
 			vos.push(new GraphVO(Back.easeIn, "Back.easeIn", 0xFF0000));
 			vos.push(new GraphVO(Back.easeOut, "Back.easeOut", 0xFF0000));
 			vos.push(new GraphVO(Back.easeInOut, "Back.easeInOut", 0xFF0000));
-//			vos.push(new GraphVO(Bounce.easeIn, "Bounce.easeIn", 0xFF6600));
-//			vos.push(new GraphVO(Bounce.easeOut, "Bounce.easeOut", 0xFF6600));
-//			vos.push(new GraphVO(Bounce.easeInOut, "Bounce.easeInOut", 0xFF6600));
+			vos.push(new GraphVO(Bounce.easeIn, "Bounce.easeIn", 0xFF6600));
+			vos.push(new GraphVO(Bounce.easeOut, "Bounce.easeOut", 0xFF6600));
+			vos.push(new GraphVO(Bounce.easeInOut, "Bounce.easeInOut", 0xFF6600));
 			vos.push(new GraphVO(Circ.easeIn, "Circ.easeIn", 0xDDBB00));
 			vos.push(new GraphVO(Circ.easeOut, "Circ.easeOut", 0xDDBB00));
 			vos.push(new GraphVO(Circ.easeInOut, "Circ.easeInOut", 0xDDBB00));
