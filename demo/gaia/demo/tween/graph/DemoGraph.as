@@ -1,5 +1,11 @@
 package gaia.demo.tween.graph
 {
+	import flash.display.Graphics;
+	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.Tweens;
+	import gaia.lib.tween.form.PropertyTweenForm;
+	import gaia.lib.tween.form.manager.TweenOverlapManager;
+
 	import flash.display.Sprite;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
@@ -9,10 +15,6 @@ package gaia.demo.tween.graph
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
-	import gaia.lib.tween.Tween;
-	import gaia.lib.tween.Tweens;
-	import gaia.lib.tween.form.PropertyTweenForm;
-	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
 	
 	public class DemoGraph extends Sprite
@@ -77,7 +79,7 @@ package gaia.demo.tween.graph
 			
 			_title.text = vo.label;
 
-			var graph:Vector.<Point> = calculateGraph(vo.fn);
+			var graph:Vector.<Point> = calculateGraph(vo.ease.fn);
 			drawGraph(graph, vo.color);
 			
 			var ct:ColorTransform = _ball.transform.colorTransform;
@@ -87,23 +89,37 @@ package gaia.demo.tween.graph
 			focus(0);
 		}
 		
-		public function focus(x:Number):void
+		public function focus(p:Number):void
 		{
-			var y:Number = _current.fn(x);
-			
-			_focus.graphics.clear();
-			_focus.graphics.lineStyle(1, _color);
-			
-			x = _left + x * _width;
+			var x:Number = _left + p * _width;
+			var y:Number = _current.ease.fn(p);
 			y = _bottom - y * _height;
+
+			var g:Graphics = _focus.graphics;
 			
-			_focus.graphics.moveTo(x, _bottom);
-			_focus.graphics.lineTo(x, y);
+			g.clear();
+			g.lineStyle(1, _color);
 			
-			_focus.graphics.moveTo(_left, y);
-			_focus.graphics.lineTo(_left + _width, y);
+			g.moveTo(x, _bottom);
+			g.lineTo(x, y);
 			
-			_focus.graphics.drawCircle(x, y, 5);
+			g.moveTo(_left, y);
+			g.lineTo(_left + _width, y);
+			
+			g.drawCircle(x, y, 5);
+			
+			g.lineStyle(2, _color, 0.5);
+			
+			if (_current.ease.dydx != null)
+			{
+				var gradient:Number = _current.ease.dydx(p);
+				var angle:Number = Math.atan(gradient);
+				var dx:Number = .25 * _width * Math.cos(angle);
+				var dy:Number = .25 * _height * Math.sin(angle);
+				
+				g.moveTo(x - dx, y + dy);
+				g.lineTo(x + dx, y - dy);
+			}
 			
 			_ball.y = y;
 		}
