@@ -9,7 +9,6 @@ package gaia.demo.tween
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
 	import flash.display.Sprite;
-	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
@@ -25,7 +24,6 @@ package gaia.demo.tween
 		private var tweens:Tweens;
 		
 		private var state:Vector.<uint>;
-		private var delays:Vector.<uint>;
 		private var sprites:Vector.<Sprite>;
 		private var motions:Vector.<MotionBlurTweenForm>;
 		private var list:Vector.<Tween>;
@@ -38,7 +36,6 @@ package gaia.demo.tween
 			tweens = new Tweens(time, COUNT);
 			
 			state = new Vector.<uint>(COUNT, true);
-			delays = new Vector.<uint>(COUNT, true);
 			sprites = new Vector.<Sprite>(COUNT, true);
 			motions = new Vector.<MotionBlurTweenForm>(COUNT, true);
 			list = new Vector.<Tween>(COUNT, true);
@@ -63,8 +60,8 @@ package gaia.demo.tween
 		{
 			var sprite:Sprite = new Sprite();
 			
-			sprite.graphics.beginFill(0xFFFFFF);
-			sprite.graphics.drawCircle(0, 0, 5);
+			sprite.graphics.beginFill(random.nextColor());
+			sprite.graphics.drawCircle(0, 0, 10);
 			sprite.graphics.endFill();
 			
 			var pt:Point = random.nextPoint(pt);
@@ -80,7 +77,7 @@ package gaia.demo.tween
 			
 			var i:int = COUNT;
 			while (i--)
-				motions[i] = new MotionBlurTweenForm(sprites[i], 0, 0, 10, manager, Quad.easeOut);
+				motions[i] = new MotionBlurTweenForm(sprites[i], 0, 0, 10, manager, Quad.easeInOut);
 		}
 		
 		private function generateTweens():void
@@ -101,29 +98,16 @@ package gaia.demo.tween
 			var tween:Tween = tweens.add(motions[i], duration, delay);
 			tween.completed.addOnce(onTweenCompleted);
 			
-			delays[i] = delay + time.now;
 			list[i] = tween;
-			setState(i, 0x1E90FF);
+
 		}
 
 		private function onTweenCompleted(tween:Tween):void
 		{
 			var i:int = list.indexOf(tween);
 			list[i] = null;
-			setState(i, 0xFF0000);
 			
 			generateTween(i);
-		}
-		
-		private function setState(i:uint, color:uint):void
-		{
-			state[i] = color;
-			
-			var sprite:Sprite = sprites[i];
-			var ct:ColorTransform = sprite.transform.colorTransform;
-			
-			ct.color = color;
-			sprite.transform.colorTransform = ct;
 		}
 		
 	}
