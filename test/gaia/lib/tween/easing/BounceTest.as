@@ -22,49 +22,49 @@ package gaia.lib.tween.easing
 //		[Test]
 //		public function test_easeIn():void
 //		{
-//			assertEqualsFloat(EASE_IN_20, Bounce.easeIn(20, 0, 100, 100), 0.000001);
-//			assertEqualsFloat(EASE_IN_50, Bounce.easeIn(50, 0, 100, 100), 0.000001);
-//			assertEqualsFloat(EASE_IN_80, Bounce.easeIn(80, 0, 100, 100), 0.000001);
+//			assertEqualsFloat(EASE_IN_20, Bounce.easeIn(20, 0, 100, 100), 0.0001);
+//			assertEqualsFloat(EASE_IN_50, Bounce.easeIn(50, 0, 100, 100), 0.0001);
+//			assertEqualsFloat(EASE_IN_80, Bounce.easeIn(80, 0, 100, 100), 0.0001);
 //		}
 //		
 //		[Test]
 //		public function test_easeOut():void
 //		{
-//			assertEqualsFloat(EASE_OUT_20, Bounce.easeOut(20, 0, 100, 100), 0.000001);
-//			assertEqualsFloat(EASE_OUT_50, Bounce.easeOut(50, 0, 100, 100), 0.000001);
-//			assertEqualsFloat(EASE_OUT_80, Bounce.easeOut(80, 0, 100, 100), 0.000001);
+//			assertEqualsFloat(EASE_OUT_20, Bounce.easeOut(20, 0, 100, 100), 0.0001);
+//			assertEqualsFloat(EASE_OUT_50, Bounce.easeOut(50, 0, 100, 100), 0.0001);
+//			assertEqualsFloat(EASE_OUT_80, Bounce.easeOut(80, 0, 100, 100), 0.0001);
 //		}
 //		
 //		[Test]
 //		public function test_easeInOut():void
 //		{
-//			assertEqualsFloat(EASE_INOUT_20, Bounce.easeInOut(20, 0, 100, 100), 0.000001);
-//			assertEqualsFloat(EASE_INOUT_50, Bounce.easeInOut(50, 0, 100, 100), 0.000001);
-//			assertEqualsFloat(EASE_INOUT_80, Bounce.easeInOut(80, 0, 100, 100), 0.000001);
+//			assertEqualsFloat(EASE_INOUT_20, Bounce.easeInOut(20, 0, 100, 100), 0.0001);
+//			assertEqualsFloat(EASE_INOUT_50, Bounce.easeInOut(50, 0, 100, 100), 0.0001);
+//			assertEqualsFloat(EASE_INOUT_80, Bounce.easeInOut(80, 0, 100, 100), 0.0001);
 //		}
 		
 		[Test]
 		public function test_easeIn():void
 		{
-			assertEqualsFloat(EASE_IN_20, Bounce.easeIn(.2) * 100, 0.000001);
-			assertEqualsFloat(EASE_IN_50, Bounce.easeIn(.5) * 100, 0.000001);
-			assertEqualsFloat(EASE_IN_80, Bounce.easeIn(.8) * 100, 0.000001);
+			assertEqualsFloat(EASE_IN_20, Bounce.easeIn.fn(.2) * 100, 0.0001);
+			assertEqualsFloat(EASE_IN_50, Bounce.easeIn.fn(.5) * 100, 0.0001);
+			assertEqualsFloat(EASE_IN_80, Bounce.easeIn.fn(.8) * 100, 0.0001);
 		}
 		
 		[Test]
 		public function test_easeOut():void
 		{
-			assertEqualsFloat(EASE_OUT_20, Bounce.easeOut(.2) * 100, 0.000001);
-			assertEqualsFloat(EASE_OUT_50, Bounce.easeOut(.5) * 100, 0.000001);
-			assertEqualsFloat(EASE_OUT_80, Bounce.easeOut(.8) * 100, 0.000001);
+			assertEqualsFloat(EASE_OUT_20, Bounce.easeOut.fn(.2) * 100, 0.0001);
+			assertEqualsFloat(EASE_OUT_50, Bounce.easeOut.fn(.5) * 100, 0.0001);
+			assertEqualsFloat(EASE_OUT_80, Bounce.easeOut.fn(.8) * 100, 0.0001);
 		}
 		
 		[Test]
 		public function test_easeInOut():void
 		{
-			assertEqualsFloat(EASE_INOUT_20, Bounce.easeInOut(.2) * 100, 0.000001);
-			assertEqualsFloat(EASE_INOUT_50, Bounce.easeInOut(.5) * 100, 0.000001);
-			assertEqualsFloat(EASE_INOUT_80, Bounce.easeInOut(.8) * 100, 0.000001);
+			assertEqualsFloat(EASE_INOUT_20, Bounce.easeInOut.fn(.2) * 100, 0.0001);
+			assertEqualsFloat(EASE_INOUT_50, Bounce.easeInOut.fn(.5) * 100, 0.0001);
+			assertEqualsFloat(EASE_INOUT_80, Bounce.easeInOut.fn(.8) * 100, 0.0001);
 		}
 		
 	}

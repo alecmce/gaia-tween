@@ -1,6 +1,7 @@
 package gaia.lib.tween
 {
 	import gaia.lib.time.Time;
+	import gaia.lib.tween.easing.Ease;
 	import gaia.lib.tween.form.TweenForm;
 	
 	final public class Tweens
@@ -29,7 +30,7 @@ package gaia.lib.tween
 				_list[i] = new Tween(this, i);
 		}
 		
-		public function add(form:TweenForm, duration:uint, delay:uint = 0, ease:Function = null):Tween
+		public function add(form:TweenForm, duration:uint, delay:uint = 0, ease:Ease = null):Tween
 		{
 			if (form == null)
 				return null;

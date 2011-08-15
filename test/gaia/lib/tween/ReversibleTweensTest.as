@@ -49,7 +49,7 @@ package gaia.lib.tween
 		public function a_reversed_tween_will_complete_where_it_started():void
 		{
 			var timer:Timer = new Timer(100, 1);
-			timer.addEventListener(TimerEvent.TIMER_COMPLETE, trigger_reverse_mid_tween);
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(trigger_reverse_mid_tween, 600));
 			timer.start();
 			
 			mock = new MockTweenForm("a");

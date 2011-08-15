@@ -2,6 +2,7 @@ package gaia.lib.tween
 {
 	import gaia.lib.notice.SingularNotice;
 	import gaia.lib.notice.SingularNoticeDispatcher;
+	import gaia.lib.tween.easing.Ease;
 	import gaia.lib.tween.form.TweenForm;
 	
 	final public class Tween
@@ -39,15 +40,11 @@ package gaia.lib.tween
 		{
 			if (!_form)
 			{
-				if (_dummy)
-				{
-					_form = _dummy;
-					_resurrected = true;
-				}
-				else
-				{
+				if (!_dummy)
 					return false;
-				}
+				
+				_form = _dummy;
+				_resurrected = true;
 			}
 			
 			if (_reversed = !_reversed)
@@ -81,7 +78,7 @@ package gaia.lib.tween
 			return _completed ||= new SingularNoticeDispatcher();
 		}
 
-		internal function init(form:TweenForm, start:int, end:int, ease:Function):void
+		internal function init(form:TweenForm, start:int, end:int, ease:Ease):void
 		{
 			_start = start;
 			_end = end;
@@ -94,7 +91,7 @@ package gaia.lib.tween
 			_form = form;
 			_form.bind(this);
 			
-			_ease = ease;
+			_ease = ease ? ease.fn : null;
 			update = _ease != null ? eased_update : vanilla_update;
 		}
 		
