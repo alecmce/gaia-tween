@@ -5,20 +5,19 @@ package gaia.demo.tween
 	import gaia.lib.tween.Tween;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
-	import gaia.lib.tween.form.MotionTweenForm;
+	import gaia.lib.tween.form.MotionBlurTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
 	import flash.display.Sprite;
-	import flash.events.KeyboardEvent;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
 	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")]
-	public class ReverseDemo extends Sprite
+	public class MotionBlurDemo extends Sprite
 	{
-		private static const COUNT:uint = 25;
-		private static const DELAY:uint = 2500;
+		private static const COUNT:uint = 200;
+		private static const DELAY:uint = 100;
 		private static const DURATION:uint = 5000;
 		
 		private var time:SimpleTime;
@@ -28,13 +27,12 @@ package gaia.demo.tween
 		private var state:Vector.<uint>;
 		private var delays:Vector.<uint>;
 		private var sprites:Vector.<Sprite>;
-		private var motions:Vector.<MotionTweenForm>;
+		private var motions:Vector.<MotionBlurTweenForm>;
 		private var list:Vector.<Tween>;
-		
-		public function ReverseDemo()
+
+		public function MotionBlurDemo()
 		{
 			time = new SimpleTime();
-			time.tick.add(onTick);
 			
 			random = new DemoRandom(new Rectangle(25, 25, 750, 550));
 			tweens = new Tweens(time, COUNT);
@@ -42,27 +40,12 @@ package gaia.demo.tween
 			state = new Vector.<uint>(COUNT, true);
 			delays = new Vector.<uint>(COUNT, true);
 			sprites = new Vector.<Sprite>(COUNT, true);
-			motions = new Vector.<MotionTweenForm>(COUNT, true);
+			motions = new Vector.<MotionBlurTweenForm>(COUNT, true);
 			list = new Vector.<Tween>(COUNT, true);
 			
 			generateSprites();
 			generateMotions();
 			generateTweens();
-			
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			stage.focus = this;
-		}
-
-		private function onKeyDown(event:KeyboardEvent):void
-		{
-			var i:int = COUNT;
-			while (i--)
-			{
-				if (list[i] && list[i].reverse())
-					setState(i, 0xFF8800);
-				else
-					generateTween(i);
-			}
 		}
 
 		private function generateSprites():void
@@ -81,7 +64,7 @@ package gaia.demo.tween
 			var sprite:Sprite = new Sprite();
 			
 			sprite.graphics.beginFill(0xFFFFFF);
-			sprite.graphics.drawCircle(0, 0, 20);
+			sprite.graphics.drawCircle(0, 0, 5);
 			sprite.graphics.endFill();
 			
 			var pt:Point = random.nextPoint(pt);
@@ -97,7 +80,7 @@ package gaia.demo.tween
 			
 			var i:int = COUNT;
 			while (i--)
-				motions[i] = new MotionTweenForm(sprites[i], 0, 0, manager, Quad.easeOut);
+				motions[i] = new MotionBlurTweenForm(sprites[i], 0, 0, 10, manager, Quad.easeOut);
 		}
 		
 		private function generateTweens():void
@@ -128,16 +111,8 @@ package gaia.demo.tween
 			var i:int = list.indexOf(tween);
 			list[i] = null;
 			setState(i, 0xFF0000);
-		}
-		
-		private function onTick(time:uint):void
-		{
-			var i:uint = COUNT;
-			while (i--)
-			{
-				if (state[i] == 0x1E90FF && time > delays[i])
-					setState(i, 0x00FF00);
-			}
+			
+			generateTween(i);
 		}
 		
 		private function setState(i:uint, color:uint):void

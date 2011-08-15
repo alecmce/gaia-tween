@@ -2,13 +2,15 @@ package gaia.lib.tween.form
 {
 	import asunit.asserts.assertEquals;
 	import asunit.framework.Async;
-	import flash.display.Sprite;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
+
 	import gaia.lib.time.SimpleTime;
 	import gaia.lib.tween.Tweens;
 	import gaia.lib.tween.easing.Quad;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
+
+	import flash.display.Sprite;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 
 
 	
@@ -54,8 +56,8 @@ package gaia.lib.tween.form
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete, 1200));
 			timer.start();
 			
-			form = new PropertyTweenForm(sprite, {x:700, y:500}, map);
-			tweens.add(form, 1000, 0, Quad.easeInOut);
+			form = new PropertyTweenForm(sprite, {x:700, y:500}, map, Quad.easeInOut);
+			tweens.add(form, 1000, 0);
 		}
 		private function onTimerComplete(event:TimerEvent):void
 		{
@@ -70,11 +72,11 @@ package gaia.lib.tween.form
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, async.add(onTimerComplete2, 1200));
 			timer.start();
 			
-			form = new PropertyTweenForm(sprite, {x:700, y:500}, map);
-			tweens.add(form, 1000, 0, Quad.easeInOut);
+			form = new PropertyTweenForm(sprite, {x:700, y:500}, map, Quad.easeInOut);
+			tweens.add(form, 1000, 0);
 			
-			form = new PropertyTweenForm(sprite, {x:700, y:100}, map);
-			tweens.add(form, 1000, 0, Quad.easeInOut);
+			form = new PropertyTweenForm(sprite, {x:700, y:100}, map, Quad.easeInOut);
+			tweens.add(form, 1000, 0);
 		}
 		private function onTimerComplete2(event:TimerEvent):void
 		{

@@ -37,7 +37,7 @@ internal class EaseIn implements Ease
 	
 	public function dydx(p:Number):Number
 	{
-		return 2 * p;
+		return p < 1 ? 2 * p : 0;
 	}
 	
 }
@@ -52,7 +52,7 @@ internal class EaseOut implements Ease
 	
 	public function dydx(p:Number):Number
 	{
-		return 2 * (1 - p);
+		return p > 0 ? 2 * (1 - p) : 0;
 	}
 	
 }
@@ -64,16 +64,18 @@ internal class EaseInOut implements Ease
 	{
 		if ((p *= 2) < 1)
 			return .5 * p * p;
-		
-		return -.5 * ((--p) * (p - 2) - 1);
+		else
+			return -.5 * ((--p) * (p - 2) - 1);
 	}
 	
 	public function dydx(p:Number):Number
 	{
-		if (p < .5)
+		if (p == 0 || p == 1)
+			return 0;
+		else if (p < .5)
 			return 4 * p;
-		
-		return 4 * (1 - p);
+		else
+			return 4 * (1 - p);
 	}
 	
 }

@@ -1,6 +1,7 @@
 package gaia.lib.tween.form
 {
 	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.easing.Ease;
 	import gaia.lib.tween.form.manager.ManagedTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
@@ -40,12 +41,23 @@ package gaia.lib.tween.form
 		
 		private var r:uint, g:uint, b:uint;
 		
-		public function ColorTweenForm(subject:DisplayObject, color:uint, manager:TweenOverlapManager)
+		private var _ease:Ease;
+		private var _isEase:Boolean;
+		private var _ease_fn:Function;
+		
+		public function ColorTweenForm(subject:DisplayObject, color:uint, manager:TweenOverlapManager, ease:Ease = null)
 		{
 			_subject = subject;
 			_manager = manager;
 			
 			this.color = color;
+			
+			_isEase = ease != null;
+			if (_isEase)
+			{
+				_ease = ease;
+				_ease_fn = _ease.fn;
+			}
 		}
 		
 		public function get color():uint
@@ -90,6 +102,9 @@ package gaia.lib.tween.form
 		{
 			if (_isDisabled)
 				return;
+			
+			if (_isEase)
+				proportion = _ease_fn(proportion);
 			
 			r = _startR + (proportion * _rangeR) | 0;
 			g = _startG + (proportion * _rangeG) | 0;

@@ -35,26 +35,26 @@ package gaia.lib.tween
 
 		public function tween(subject:*, properties:Object, duration:uint, delay:uint = 0, ease:Ease = null):Tween
 		{
-			var form:PropertyTweenForm = new PropertyTweenForm(subject, properties, _manager);
-			return _tweens.add(form, duration, delay, ease);
+			var form:PropertyTweenForm = new PropertyTweenForm(subject, properties, _manager, ease);
+			return _tweens.add(form, duration, delay);
 		}
 		
 		public function method(fn:Function, duration:uint, params:Array = null, delay:uint = 0, ease:Ease = null):Tween
 		{
-			var form:TweenForm = params ? new ParameterizedMethodTweenForm(fn, params) : new MethodTweenForm(fn);
-			return _tweens.add(form, duration, delay, ease);
+			var form:TweenForm = params ? new ParameterizedMethodTweenForm(fn, params, ease) : new MethodTweenForm(fn, ease);
+			return _tweens.add(form, duration, delay);
 		}
 		
 		public function color(subject:DisplayObject, color:uint, duration:uint, delay:uint = 0, ease:Ease = null):Tween
 		{
-			var form:ColorTweenForm = new ColorTweenForm(subject, color, _manager);
-			return _tweens.add(form, duration, delay, ease);
+			var form:ColorTweenForm = new ColorTweenForm(subject, color, _manager, ease);
+			return _tweens.add(form, duration, delay);
 		}
 		
 		public function goto(subject:DisplayObject, x:Number, y:Number, duration:uint, delay:uint = 0, ease:Ease = null):Tween
 		{
-			var form:MotionTweenForm = new MotionTweenForm(subject, x, y, _manager);
-			return _tweens.add(form, duration, delay, ease);
+			var form:MotionTweenForm = new MotionTweenForm(subject, x, y, _manager, ease);
+			return _tweens.add(form, duration, delay);
 		}
 	}
 	

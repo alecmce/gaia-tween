@@ -2,7 +2,6 @@ package gaia.lib.tween
 {
 	import gaia.lib.notice.SingularNotice;
 	import gaia.lib.notice.SingularNoticeDispatcher;
-	import gaia.lib.tween.easing.Ease;
 	import gaia.lib.tween.form.TweenForm;
 	
 	final public class Tween
@@ -47,10 +46,7 @@ package gaia.lib.tween
 				_resurrected = true;
 			}
 			
-			if (_reversed = !_reversed)
-				update = _ease != null ? eased_reversed : vanilla_reversed;
-			else
-				update = _ease != null ? eased_update : vanilla_update;
+			(_reversed = !_reversed) ? fn_reversed : fn_update;
 			
 			_start = (_time << 1) - _end;
 			_end = _start + _duration;
@@ -78,7 +74,7 @@ package gaia.lib.tween
 			return _completed ||= new SingularNoticeDispatcher();
 		}
 
-		internal function init(form:TweenForm, start:int, end:int, ease:Ease):void
+		internal function init(form:TweenForm, start:int, end:int):void
 		{
 			_start = start;
 			_end = end;
@@ -91,8 +87,7 @@ package gaia.lib.tween
 			_form = form;
 			_form.bind(this);
 			
-			_ease = ease ? ease.fn : null;
-			update = _ease != null ? eased_update : vanilla_update;
+			update = _ease != null ? fn_update : fn_update;
 		}
 		
 		internal function complete():void
@@ -125,7 +120,7 @@ package gaia.lib.tween
 			return _form || _dummy;
 		}
 		
-		private function vanilla_update(time:uint):Boolean
+		private function fn_update(time:uint):Boolean
 		{
 			if ((_time = time) >= _end)
 			{
@@ -141,23 +136,7 @@ package gaia.lib.tween
 			return false;
 		}
 		
-		private function eased_update(time:uint):Boolean
-		{
-			if ((_time = time) >= _end)
-			{
-				_form.update(1);
-				return autoComplete;
-			}
-			
-			if (time < _start)
-				_form.update(0);
-			else
-				_form.update(_ease((time - _start) * _invDuration));
-			
-			return false;
-		}
-		
-		private function vanilla_reversed(time:uint):Boolean
+		private function fn_reversed(time:uint):Boolean
 		{
 			if ((_time = time) >= _end)
 			{
@@ -173,21 +152,5 @@ package gaia.lib.tween
 			return false;
 		}
 		
-		private function eased_reversed(time:uint):Boolean
-		{
-			if ((_time = time) >= _end)
-			{
-				_form.update(0);
-				return autoComplete;
-			}
-			
-			if (time < _start)
-				_form.update(1);
-			else
-				_form.update(_ease((_end - time) * _invDuration));
-			
-			return false;
-		}
-
 	}
 }

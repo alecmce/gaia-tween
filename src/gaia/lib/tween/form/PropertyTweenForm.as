@@ -1,6 +1,7 @@
 package gaia.lib.tween.form
 {
 	import gaia.lib.tween.Tween;
+	import gaia.lib.tween.easing.Ease;
 	import gaia.lib.tween.form.manager.ManagedTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
 
@@ -9,7 +10,10 @@ package gaia.lib.tween.form
 		
 		private var _subject:*;
 		private var _manager:TweenOverlapManager;
-
+		
+		private var _ease:Ease;
+		private var _ease_fn:Function;
+		
 		private var _count:uint;
 		private var _active:uint;
 		private var _keys:Vector.<String>;
@@ -19,11 +23,17 @@ package gaia.lib.tween.form
 
 		private var i:uint;
 
-		public function PropertyTweenForm(subject:*, properties:Object, manager:TweenOverlapManager)
+		public function PropertyTweenForm(subject:*, properties:Object, manager:TweenOverlapManager, ease:Ease = null)
 		{
 			_subject = subject;
 			_manager = manager;
+			
+			_ease = ease;
+			if (_ease)
+				_ease_fn = _ease.fn;
+			
 			parseProperties(properties);
+			
 		}
 
 		private function parseProperties(properties:Object):void
@@ -68,11 +78,14 @@ package gaia.lib.tween.form
 
 		final public function update(proportion:Number):void
 		{
+			if (_ease_fn)
+				proportion = _ease_fn(proportion);
+			
 			i = _active;
 			while (i--)
 				_subject[_keys[i]] = _starts[i] + proportion * _ranges[i];
 		}
-
+		
 		final public function unbind(tween:Tween):void
 		{
 			_manager.unbind(_subject, _keys);

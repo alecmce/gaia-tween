@@ -1,10 +1,5 @@
 package gaia.demo.tween
 {
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.ColorTransform;
-	import flash.geom.Rectangle;
 	import gaia.demo.util.DemoRandom;
 	import gaia.lib.time.PausableTime;
 	import gaia.lib.time.pause.IntrinsicTimeStrategy;
@@ -13,6 +8,12 @@ package gaia.demo.tween
 	import gaia.lib.tween.easing.Quad;
 	import gaia.lib.tween.form.ColorTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
+
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
+	import flash.geom.Rectangle;
 
 
 	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")]
@@ -68,7 +69,7 @@ package gaia.demo.tween
 				var time:uint = _random.nextInt(500) + 750;
 				form.color = _random.nextColor();
 				
-				_tweens.add(form, time, 0, Quad.easeInOut).completed.addOnce(onTweenComplete);
+				_tweens.add(form, time, 0).completed.addOnce(onTweenComplete);
 			}
 		}
 
@@ -78,7 +79,7 @@ package gaia.demo.tween
 			form.color = _random.nextColor();
 			
 			var time:uint = _random.nextInt(500) + 750;
-			_tweens.add(form, time, 0, Quad.easeInOut).completed.addOnce(onTweenComplete);
+			_tweens.add(form, time, 0).completed.addOnce(onTweenComplete);
 		}
 		
 		private function generateForms():Vector.<ColorTweenForm>
@@ -87,7 +88,7 @@ package gaia.demo.tween
 			
 			var i:int = _count;
 			while (i--)
-				forms[i] = new ColorTweenForm(_grid[i], 0, _manager);
+				forms[i] = new ColorTweenForm(_grid[i], 0, _manager, Quad.easeInOut);
 			
 			return forms;
 		}

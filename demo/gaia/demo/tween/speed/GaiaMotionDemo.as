@@ -1,7 +1,5 @@
 package gaia.demo.tween.speed
 {
-	import flash.display.Sprite;
-	import flash.geom.Point;
 	import gaia.demo.util.DemoRandom;
 	import gaia.lib.notice.SingularNotice;
 	import gaia.lib.notice.SingularNoticeDispatcher;
@@ -12,6 +10,9 @@ package gaia.demo.tween.speed
 	import gaia.lib.tween.easing.Quad;
 	import gaia.lib.tween.form.MotionTweenForm;
 	import gaia.lib.tween.form.manager.TweenOverlapManager;
+
+	import flash.display.Sprite;
+	import flash.geom.Point;
 
 	
 	public class GaiaMotionDemo implements LibrarySpeedDemo
@@ -53,7 +54,7 @@ package gaia.demo.tween.speed
 
 			var i:int = _count;
 			while (i--)
-				_forms[i] = new MotionTweenForm(sprites[i], 0, 0, _manager);
+				_forms[i] = new MotionTweenForm(sprites[i], 0, 0, _manager, Quad.easeInOut);
 		}
 
 		public function start(iterations:uint):void
@@ -88,7 +89,7 @@ package gaia.demo.tween.speed
 				var form:MotionTweenForm = _forms[i];
 				pt = _random.nextPoint(pt);
 				form.set(pt.x, pt.y);
-				_list[i] = _tween = _tweens.add(form, 1000, 0, Quad.easeInOut);
+				_list[i] = _tween = _tweens.add(form, 1000, 0);
 			}
 
 			if (_iterations--)
