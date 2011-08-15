@@ -10,7 +10,7 @@ package gaia.lib.tween.form
 
 	final public class MotionBlurTweenForm implements ManagedTweenForm
 	{
-		private static const BLUR_SCALAR:Number = 0.001;
+		private static const BLUR_SCALAR:Number = 0.002;
 		private static const KEYS:Vector.<String> = Vector.<String>(["x","y"]);
 		
 		private var _subject:DisplayObject;
